@@ -61,6 +61,29 @@ describe CTuple do
       
       vector.-.val.should eq({-1.0, 2.0, -3.0, 0.0})
     end
+
+    it "multiplies a tuple by scalar" do
+      tpl = CTuple.new(1,-2,3,-4)
+      (tpl * 3.5).val.should eq({3.5, -7, 10.5, -14})
+    end
+
+    it "multiplies a tuple by fraction" do
+      tpl = CTuple.new(1,-2,3,-4)
+      (tpl * 0.5).val.should eq({0.5, -1, 1.5, -2})
+    end
+
+    it "divides a tuple by a scalar" do
+      tpl = CTuple.new(1,-2,3,-4)
+      (tpl / 2).val.should eq({0.5, -1, 1.5, -2})
+    end
+
+    it "computes the magnitude" do
+      v1 = CTuple.new_vector(1, 0, 0)
+      v1.magnitude.should eq(1)
+
+      v2 = CTuple.new_vector(1, 2, 3)
+      v2.magnitude.should eq(Math.sqrt(14))
+    end
   end
   
 end

@@ -58,6 +58,18 @@ class CTuple
   end
 
   def -
-    CTuple.new(-x,-y,-z,-w)
+    CTuple.new(-x, -y, -z, -w)
+  end
+
+  def *(f : Float64)
+    CTuple.new(x*f, y*f, z*f, w*f)
+  end
+
+  def /(f : Float64)
+    CTuple.new(x/f, y/f, z/f, w/f)
+  end
+
+  def magnitude
+    Math.sqrt(x * x + y * y + z * z)
   end
 end
