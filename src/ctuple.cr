@@ -5,7 +5,7 @@
 # and provides utility methods for creating and accessing coordinatae values.
 
 class CTuple
-  def initialize(tuple)
+  def initialize(tuple : Tuple)
     @tuple = tuple
   end
 
@@ -71,5 +71,17 @@ class CTuple
 
   def magnitude
     Math.sqrt(x * x + y * y + z * z)
+  end
+
+  def normalize
+    CTuple.new(x/magnitude, y/magnitude, z/magnitude, w/magnitude)
+  end
+
+  def dot(b : CTuple)
+    x * b.x + y * b.y + z * b.z + w * b.w
+  end
+
+  def cross(b : CTuple)
+    CTuple.new_vector(y * b.z - z * b.y, z * b.x - x * b.z, x * b.y - y * b.x)
   end
 end

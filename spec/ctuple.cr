@@ -84,6 +84,26 @@ describe CTuple do
       v2 = CTuple.new_vector(1, 2, 3)
       v2.magnitude.should eq(Math.sqrt(14))
     end
+
+    it "vector normalizations" do
+      CTuple.new_vector(4, 0, 0).normalize.val.should eq({1.0,0,0,0})
+      CTuple.new_vector(1, 2, 3).normalize.val.should eq({1/Math.sqrt(14), 2/Math.sqrt(14), 3/Math.sqrt(14), 0.0})
+    end
+
+    it "magnitude of a normalized vector" do
+      CTuple.new_vector(1, 2, 3).normalize.magnitude.should eq(1)
+    end
+
+    it "computes the dot product of two tuples" do
+      CTuple.new_vector(1, 2, 3).dot(CTuple.new_vector(2, 3, 4)).should eq(20)
+    end
+
+    it "computes the cross product of two tuples" do
+      a = CTuple.new_vector(1, 2, 3)
+      b = CTuple.new_vector(2, 3, 4)
+      a.cross(b).val.should eq({-1.0,2.0,-1.0,0.0})
+      b.cross(a).val.should eq({1.0,-2.0,1.0,0.0})
+    end
   end
   
 end
