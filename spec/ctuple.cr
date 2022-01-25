@@ -55,6 +55,12 @@ describe CTuple do
       result.val.should eq({-2.0,-4.0,-6.0,0.0})
       result.vector?.should eq true
     end
+
+    it "negating a vector creates the opposite coordinates" do
+      vector = CTuple.new_vector(1, -2, 3)
+      
+      vector.-.val.should eq({-1.0, 2.0, -3.0, 0.0})
+    end
   end
   
 end

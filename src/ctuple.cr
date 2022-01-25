@@ -56,4 +56,8 @@ class CTuple
   def -(t : CTuple)
     CTuple.new(x - t.x, y - t.y, z - t.z, w - t.w)
   end
+
+  def -
+    CTuple.new(-x,-y,-z,-w)
+  end
 end
