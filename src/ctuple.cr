@@ -5,6 +5,8 @@
 # and provides utility methods for creating and accessing coordinatae values and maths.
 
 class CTuple
+  EPSILON = 0.0000000001
+
   def initialize(tuple : Tuple)
     @tuple = tuple
   end
@@ -42,31 +44,37 @@ class CTuple
   end
 
   def self.new_point(x : Float64, y : Float64, z : Float64)
-    CTuple.new(x, y, z, 1.0)
+    self.new(x, y, z, 1.0)
   end
 
   def self.new_vector(x : Float64, y : Float64, z : Float64)
-    CTuple.new(x, y, z, 0.0)
+    self.new(x, y, z, 0.0)
   end
 
   def +(t : CTuple)
-    CTuple.new(x + t.x, y + t.y, z + t.z, w + t.w)
+    self.class.new(x + t.x, y + t.y, z + t.z, w + t.w)
   end
 
   def -(t : CTuple)
-    CTuple.new(x - t.x, y - t.y, z - t.z, w - t.w)
+    self.class.new(x - t.x, y - t.y, z - t.z, w - t.w)
   end
 
   def -
-    CTuple.new(-x, -y, -z, -w)
+    self.class.new(-x, -y, -z, -w)
   end
 
   def *(f : Float64)
-    CTuple.new(x*f, y*f, z*f, w*f)
+    self.class.new(x*f, y*f, z*f, w*f)
   end
 
   def /(f : Float64)
-    CTuple.new(x/f, y/f, z/f, w/f)
+    self.class.new(x/f, y/f, z/f, w/f)
+  end
+
+  def approximately(b : Tuple) 
+    (@tuple[0] - b[0]).abs < Float64::EPSILON &&
+    (@tuple[1] - b[1]).abs < Float64::EPSILON &&
+    (@tuple[2] - b[2]).abs < Float64::EPSILON
   end
 
   def magnitude
@@ -74,7 +82,7 @@ class CTuple
   end
 
   def normalize
-    CTuple.new(x/magnitude, y/magnitude, z/magnitude, w/magnitude)
+    self.class.new(x/magnitude, y/magnitude, z/magnitude, w/magnitude)
   end
 
   def dot(b : CTuple)
@@ -82,6 +90,6 @@ class CTuple
   end
 
   def cross(b : CTuple)
-    CTuple.new_vector(y * b.z - z * b.y, z * b.x - x * b.z, x * b.y - y * b.x)
+    self.class.new_vector(y * b.z - z * b.y, z * b.x - x * b.z, x * b.y - y * b.x)
   end
 end
