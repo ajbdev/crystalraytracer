@@ -38,15 +38,19 @@ class Canvas
           3.times do |i|
             val = rgb[i].to_s
 
-            row += "\n" if (row + val).size > max_ppm_width
+            if (row + val).size > max_ppm_width
+              ppm << "\n#{row}"
+              row = ""
+            end
 
             row += val
             
-            row += " " if x+1 < width
+            row += " " if i < 2
           end
-          #row += " " if x+1 < width
+          row += " " if x+1 < width
         end
-        ppm << "#{row}\n"
+        ppm << row
+        ppm << "\n" if y+1 < height
       end
     end
   end
