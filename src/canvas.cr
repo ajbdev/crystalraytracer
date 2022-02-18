@@ -49,9 +49,9 @@ class Canvas
             line_c += val.size
           end
         end
-        
+
         ppm << line.join(' ')
-        ppm << "\n" if y+1 < height
+        ppm << "\n"
       end
     end
   end

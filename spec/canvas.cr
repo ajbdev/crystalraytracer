@@ -19,7 +19,8 @@ describe Canvas do
 
       canvas.pixel(2, 3).should eq red
     end
-
+  end
+  describe "#to_ppm" do
     it "exports to ppm format" do
       canvas = Canvas.new(5, 3)
       canvas.pixel(0, 0, Color.new(1.5, 0, 0))
@@ -33,6 +34,7 @@ P3
 255 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 128 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255
+
 PPM
     end
 
@@ -48,7 +50,13 @@ P3
 153 255 204 153 255 204 153 255 204 153 255 204 153
 255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204
 153 255 204 153 255 204 153 255 204 153 255 204 153
+
 PPM
+    end
+
+    it "terminates the export with a newline" do
+      canvas = Canvas.new(5, 3)
+      canvas.to_ppm.ends_with?("\n").should eq true
     end
   end
 end
