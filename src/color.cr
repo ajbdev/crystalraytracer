@@ -23,6 +23,12 @@ class Color < CTuple
     val
   end
 
+  def to_rgb_int255
+    s = self * 255
+
+    { s.red.round_away.to_i.clamp(0,255), s.green.round_away.to_i.clamp(0,255), s.blue.round_away.to_i.clamp(0,255) }
+  end
+
   def *(b : Color)
     hadamard_product(b)
   end
@@ -33,5 +39,25 @@ class Color < CTuple
       green * b.green,
       blue * b.blue
     )
+  end
+
+  def self.black
+    self.new(0.0,0.0,0.0)
+  end
+
+  def self.white
+    self.new(1.0,1.0,1.0)
+  end
+
+  def self.red
+    self.new(1.0,0.0,0.0)
+  end
+
+  def self.green
+    self.new(0.0,1.0,0.0)
+  end
+
+  def self.blue
+    self.new(0.0,0.0,1.0)
   end
 end
