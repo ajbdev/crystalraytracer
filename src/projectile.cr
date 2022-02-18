@@ -1,4 +1,6 @@
 require "./ctuple.cr"
+require "./color.cr"
+require "./canvas.cr"
 
 struct Environment
   property gravity : CTuple
@@ -26,13 +28,31 @@ def tick(env : Environment, p : Projectile)
   return Projectile.new(position, velocity)
 end
 
-p = Projectile.new(CTuple.new_point(0, 1, 0), CTuple.new_vector(1, 1, 0).normalize)
+# start ← point(0, 1, 0)
+# velocity ← normalize(vector(1, 1.8, 0)) * 11.25 p ← projectile(start, velocity)
+# gravity ← vector(0, -0.1, 0) wind ← vector(-0.01, 0, 0)
+# e ← environment(gravity, wind)
+# c ← canvas(900, 550)
+
+p = Projectile.new(CTuple.new_point(0, 1, 0), CTuple.new_vector(1, 1.8, 0).normalize * 11.25)
 env = Environment.new(CTuple.new_vector(0, -0.1, 0), CTuple.new_vector(-0.01, 0, 0))
+canvas = Canvas.new(900, 550)
 
 loop do
   p = tick(env, p)
 
-  puts "Projectile x: #{p.position.x}, y: #{p.position.y}"
+  x = p.position.x.round_away.to_i
+  y = p.position.y.round_away.to_i
+
+  canvas.pixel(x, y, Color.new(1,1,1))
+
+  puts "Projectile x: #{x}, y: #{y}"
 
   break if p.position.y <= 0
 end
+
+ppm_file = File.tempfile("crystalraytracer.ppm")
+
+File.write(ppm_file.path, canvas.to_ppm)
+
+puts "PPM generated at: #{ppm_file.path}"
