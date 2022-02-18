@@ -3,6 +3,8 @@ class Canvas
   getter height : Int32
   getter pixels : Array(Array(Color))
 
+  MAX_PPM_LINE_WIDTH = 70
+
   def initialize(w : Int32, h : Int32)
     @width = w
     @height = h
@@ -26,30 +28,29 @@ class Canvas
   end
 
   def to_ppm
-    max_ppm_width = 70
-
     String.build do |ppm|
       ppm << "P3\n#{width} #{height}\n255\n" # File header with magic numbers
 
       height.times do |y|
-        row = ""
+        line = [] of String
+        line_c = 0
         width.times do |x|
           rgb = pixels[x][y].to_rgb_int255
-          3.times do |i|
-            val = rgb[i].to_s
+          3.times do |c|
+            val = rgb[c].to_s
 
-            if (row + val).size > max_ppm_width
-              ppm << "\n#{row}"
-              row = ""
+            if line_c + line.size + val.size > MAX_PPM_LINE_WIDTH
+              ppm << "#{line.join(' ')}\n"
+              line = [] of String
+              line_c = 0
             end
 
-            row += val
-            
-            row += " " if i < 2
+            line << val
+            line_c += val.size
           end
-          row += " " if x+1 < width
         end
-        ppm << row
+        
+        ppm << line.join(' ')
         ppm << "\n" if y+1 < height
       end
     end
