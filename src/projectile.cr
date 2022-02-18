@@ -1,6 +1,4 @@
-require "./ctuple.cr"
-require "./color.cr"
-require "./canvas.cr"
+require "./raytracer.cr"
 
 struct Environment
   property gravity : CTuple
