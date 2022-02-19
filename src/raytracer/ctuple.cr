@@ -70,6 +70,14 @@ class CTuple
   def /(f : Float64)
     self.class.new(x/f, y/f, z/f, w/f)
   end
+  
+  def size
+    @tuple.size
+  end
+
+  def [](n)
+    @tuple[n]
+  end
 
   def approximately(x : Float64, y : Float64, z : Float64)
     approximately({ x, y, z })
