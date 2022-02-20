@@ -32,9 +32,9 @@ class Matrix
     
     result = Matrix.new(rows, columns)
 
-    rows.times do |x|
-      columns.times do |y|
-        result[x][y] = (0..rows-1).map { |i| matrix[x][i] * other[i][y] }.sum
+    rows.times do |y|
+      columns.times do |x|
+        result[y][x] = (0..rows-1).map { |i| matrix[y][i] * other[i][x] }.sum
       end
     end
 
@@ -44,14 +44,12 @@ class Matrix
   def *(tuple : CTuple)
     raise DimensionMismatch.new("Tuple size must match column and row size") if tuple.size != columns != rows
 
-    result = Array(Float64).new(rows)
-    rows.times do |x|
-      columns.times do |y|
-        result[x] = (0..rows-1).map { |i| matrix[x][i] * tuple[i] }.sum
-      end
+    result = Array(Float64).new(rows) { 0.0 }
+    rows.times do |y|
+      result[y] = (0..columns-1).map { |i| matrix[y][i] * tuple[i] }.sum
     end
 
-    CTuple.new(Tuple.from(result))
+    CTuple.new(result[0],result[1],result[2],result[3])
   end
 
   def ==(other : Matrix)
@@ -63,6 +61,5 @@ class Matrix
   end
 
   class DimensionMismatch < Exception
-
   end
 end
