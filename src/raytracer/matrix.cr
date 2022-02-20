@@ -62,6 +62,25 @@ class Matrix
     Matrix.new(id)
   end
 
+  def determinants
+    if rows == 2
+      return (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0])
+    end
+
+    raise NotImplementedError.new("Determinants for only 2x2 matrices currently supported")
+  end
+
+  def submatrix(row, column)
+    sub = matrix.dup
+
+    sub.delete_at(row)
+    sub.each do |row|
+      row.delete_at(column)
+    end
+
+    Matrix.new(sub)
+  end
+
   def transpose
     Matrix.new(matrix.transpose)
   end
