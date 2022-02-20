@@ -78,7 +78,7 @@ class CTuple
   end
 
   def approximately?(x : Float64, y : Float64, z : Float64)
-    approximately({ x, y, z })
+    approximately?({ x, y, z })
   end
 
   def approximately?(b : Tuple) 

@@ -8,7 +8,7 @@ describe Canvas do
 
       c.width.should eq 10
       c.height.should eq 20
-      c.pixels.each { |row| row.each { |p| p.approximately(0.0, 0.0, 0.0) } }
+      c.pixels.each { |row| row.each { |p| p.approximately?(0.0, 0.0, 0.0) } }
     end
 
     it "allows storing pixels to the canvas by position" do
