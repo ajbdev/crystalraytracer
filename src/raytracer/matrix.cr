@@ -52,6 +52,20 @@ class Matrix
     CTuple.new(result[0],result[1],result[2],result[3])
   end
 
+  def identity
+    id = Array.new(rows) { Array.new(columns) { 0.0 }}
+
+    rows.times do |i|
+      id[i][i] = 1.0
+    end
+
+    Matrix.new(id)
+  end
+
+  def transpose
+    Matrix.new(matrix.transpose)
+  end
+
   def ==(other : Matrix)
     matrix == other.matrix
   end

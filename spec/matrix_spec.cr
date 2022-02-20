@@ -121,5 +121,40 @@ describe Matrix do
 
       (a * b).val.should eq({ 18.0, 24.0, 33.0, 1.0 })
     end
+    it "multiplies a matrix by the identity matrix" do
+      a = Matrix.new([
+        [0,1,2,4],
+        [1,2,4,8],
+        [2,4,8,16],
+        [4,8,16,32]
+      ])
+
+      (a * a.identity).should eq(a)      
+    end
+    it "transposes a matrix" do
+      a = Matrix.new([
+        [0,9,3,0],
+        [9,8,0,8],
+        [1,8,5,3],
+        [0,0,5,8]
+      ])
+
+      a.transpose.should eq Matrix.new([
+        [0,9,1,0],
+        [9,8,8,0],
+        [3,0,5,5],
+        [0,8,3,8]
+      ])
+    end
+    it "transposing the identity matrix returns the identity matrix" do
+      a = Matrix.new([
+        [1,2,3,4],
+        [2,4,4,2],
+        [8,6,4,1],
+        [0,0,0,1]
+      ])
+
+      a.identity.transpose.should eq a.identity
+    end
   end
 end
