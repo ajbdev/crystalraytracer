@@ -162,7 +162,7 @@ describe Matrix do
         [-3,2]
       ])
 
-      a.determinants.should eq 17
+      a.determinant.should eq 17
     end
     it "a submatrix of a 3x3 matrix is a 2x2 matrix" do
       a = Matrix.new([
@@ -189,6 +189,17 @@ describe Matrix do
         [-8, 8, 6],
         [-7,-1, 1]
       ])
+    end
+    it "calculates a minor of a 3x3 matrix" do
+      a = Matrix.new([
+        [3, 5, 0],
+        [2,-1,-7],
+        [6,-1, 5]
+      ])
+      b = a.submatrix(1, 0)
+
+      b.determinant.should eq 25
+      a.minor(1, 0).should eq 25
     end
   end
 end

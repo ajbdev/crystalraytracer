@@ -62,16 +62,26 @@ class Matrix
     Matrix.new(id)
   end
 
-  def determinants
-    if rows == 2
-      return (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0])
-    end
+  def determinant
+    return (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]) if rows == 2
 
     raise NotImplementedError.new("Determinants for only 2x2 matrices currently supported")
   end
 
+  def minor(row, column)
+    submatrix(row, column).determinant
+  end
+
   def submatrix(row, column)
-    sub = matrix.dup
+    sub = [] of Array(Float64)
+
+    # Deep copy
+    rows.times do |y|
+      sub << [] of Float64
+      columns.times do |x|
+        sub[y] << matrix[y][x]
+      end
+    end
 
     sub.delete_at(row)
     sub.each do |row|
