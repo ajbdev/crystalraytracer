@@ -72,6 +72,10 @@ class Matrix
     submatrix(row, column).determinant
   end
 
+  def cofactor(row, column)
+    minor(row, column) * (row+column % 2 == 0 ? 1 : -1)
+  end
+
   def submatrix(row, column)
     sub = [] of Array(Float64)
 

@@ -131,6 +131,8 @@ describe Matrix do
 
       (a * a.identity).should eq(a)      
     end
+  end
+  describe "#transpose" do
     it "transposes a matrix" do
       a = Matrix.new([
         [0,9,3,0],
@@ -156,6 +158,8 @@ describe Matrix do
 
       a.identity.transpose.should eq a.identity
     end
+  end
+  describe "#submatrices" do
     it "calculates the determinants of a 2x2 matrix" do
       a = Matrix.new([
         [ 1,5],
@@ -200,6 +204,18 @@ describe Matrix do
 
       b.determinant.should eq 25
       a.minor(1, 0).should eq 25
+    end
+    it "calculates a cofactor of a 3x3 matrix" do
+      a = Matrix.new([
+        [3, 5, 0],
+        [2,-1,-7],
+        [6,-1, 5]
+      ])
+
+      a.minor(0,0).should eq -12
+      a.cofactor(0,0).should eq -12
+      a.minor(1,0).should eq 25
+      a.cofactor(1,0).should eq -25
     end
   end
 end
