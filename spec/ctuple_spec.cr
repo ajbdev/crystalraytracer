@@ -15,6 +15,14 @@ describe CTuple do
       vector.w.should eq 0.0
       vector.vector?.should eq true
     end
+    it "initializes a vector as its own class" do
+      vector = Vector.new(1.0,1.0,1.0)
+      vector.vector?.should eq true
+    end
+    it "initializes a point as its own class" do
+      point = Point.new(1.0,1.0,1.0)
+      point.point?.should eq true
+    end
   end
 
   describe "#math" do

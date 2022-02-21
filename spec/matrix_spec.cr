@@ -52,7 +52,7 @@ describe Matrix do
       m[2][2].should eq 1
     end
   end
-  describe "#equality" do
+  describe "equality" do
     it "recognizes matrices with the same values as equal" do
       a = Matrix.new([
         [1,2,3,4],
@@ -86,7 +86,7 @@ describe Matrix do
       a.should_not eq b
     end
   end
-  describe "#math" do
+  describe "math" do
     it "multiplies matrices together properly" do
       a = Matrix.new([
         [1, 2, 3, 4],
@@ -132,7 +132,7 @@ describe Matrix do
       (a * a.identity).should eq(a)      
     end
   end
-  describe "#transpose" do
+  describe "transpose" do
     it "transposes a matrix" do
       a = Matrix.new([
         [0,9,3,0],
@@ -159,7 +159,7 @@ describe Matrix do
       a.identity.transpose.should eq a.identity
     end
   end
-  describe "#submatrices" do
+  describe "submatrices" do
     it "calculates the determinants of a 2x2 matrix" do
       a = Matrix.new([
         [ 1,5],
@@ -194,6 +194,8 @@ describe Matrix do
         [-7,-1, 1]
       ])
     end
+  end
+  describe "minor, cofactors, inversion" do
     it "calculates a minor of a 3x3 matrix" do
       a = Matrix.new([
         [3, 5, 0],

@@ -81,10 +81,14 @@ class CTuple
     approximately?({ x, y, z })
   end
 
-  def approximately?(b : Tuple) 
+  def approximately?(b : Tuple)
     (@tuple[0] - b[0]).abs < Float64::EPSILON &&
     (@tuple[1] - b[1]).abs < Float64::EPSILON &&
     (@tuple[2] - b[2]).abs < Float64::EPSILON
+  end
+
+  def ==(other : CTuple)
+    approximately?(other.val)
   end
 
   def magnitude
