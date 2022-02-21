@@ -1,6 +1,6 @@
 class Transform < Matrix
 
-  def self.translation(x, y, z)
+  def self.translate(x, y, z)
     t = Matrix.identity
 
     t[0][3] = x
@@ -10,7 +10,7 @@ class Transform < Matrix
     Matrix.new(t)
   end
 
-  def self.scaling(x, y, z)
+  def self.scale(x, y, z)
     t = Matrix.identity
 
     t[0][0] = x
@@ -22,15 +22,15 @@ class Transform < Matrix
   end
 
   def self.rotate_x(radians : Float64)
-    rotation(:x, radians)
+    rotate(:x, radians)
   end
 
   def self.rotate_y(radians : Float64)
-    rotation(:y, radians)
+    rotate(:y, radians)
   end
 
   def self.rotate_z(radians : Float64)
-    rotation(:z, radians)
+    rotate(:z, radians)
   end
 
   def self.shear(xy : Float64, xz : Float64, yx : Float64, yz : Float64, zx : Float64, zy : Float64)
@@ -46,7 +46,7 @@ class Transform < Matrix
     Matrix.new(t)
   end
 
-  def self.rotation(axis : Symbol, radians : Float64)
+  def self.rotate(axis : Symbol, radians : Float64)
     t = Matrix.identity
 
     case axis
