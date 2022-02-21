@@ -35,7 +35,7 @@ class Matrix
   def *(other : Matrix)
     raise DimensionMismatch.new("Matrices must be square and of equal size") if @rows != other.columns
     
-    result = Matrix.new(rows, columns)
+    result = self.class.new(rows, columns)
 
     rows.times do |y|
       columns.times do |x|
@@ -131,11 +131,11 @@ class Matrix
       end
     end
 
-    Matrix.new(m)
+    self.class.new(m)
   end
 
   def transpose
-    Matrix.new(matrix.transpose)
+    self.cass.new(matrix.transpose)
   end
 
   def approximately?(other : Matrix)

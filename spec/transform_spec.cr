@@ -122,5 +122,14 @@ describe Transform do
       t = c * b * a
       (t * p).should eq Point.new(15, 0, 7)
     end
+    it "allows a fluent interface" do
+      p = Point.new(1, 0, 1)
+      transform = Transform.new
+                          .translate(10, 5, 7)
+                          .scale(5, 5, 5)
+                          .rotate_x(Math::PI / 2)
+
+      (transform * p).should eq Point.new(15, 0, 7)
+    end
   end
 end
