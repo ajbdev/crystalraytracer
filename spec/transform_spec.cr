@@ -46,4 +46,33 @@ describe Transform do
       (transform * p).should eq Point.new(-2, 3, 4)
     end
   end
+  describe "rotation" do
+    it "rotates a point around the x axis" do
+      p = Point.new(0, 1, 0)
+
+      half_quarter = Transform.rotation(:x, Math::PI / 4)
+      full_quarter = Transform.rotate_x(Math::PI / 2)
+
+      (half_quarter * p).should eq Point.new(0, Math.sqrt(2) / 2, Math.sqrt(2) / 2)
+      (full_quarter * p).should eq Point.new(0, 0, 1)
+    end
+    it "rotates a point around the y axis" do
+      p = Point.new(0, 0, 1)
+
+      half_quarter = Transform.rotation(:y, Math::PI / 4)
+      full_quarter = Transform.rotate_y(Math::PI / 2)
+
+      (half_quarter * p).should eq Point.new((Math.sqrt(2) / 2), 0, Math.sqrt(2) / 2)
+      (full_quarter * p).should eq Point.new(1, 0, 0)
+    end
+    it "rotates a point around the z axis" do
+      p = Point.new(0, 1, 0)
+
+      half_quarter = Transform.rotation(:z, Math::PI / 4)
+      full_quarter = Transform.rotate_z(Math::PI / 2)
+
+      (half_quarter * p).should eq Point.new((Math.sqrt(2) / 2) * -1, Math.sqrt(2) / 2, 0)
+      (full_quarter * p).should eq Point.new(-1, 0, 0)
+    end
+  end
 end
