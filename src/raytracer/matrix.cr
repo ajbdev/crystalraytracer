@@ -65,12 +65,12 @@ class Matrix
   def determinant
     return (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]) if rows == 2
 
-    d = 0
+    det = 0
     columns.times do |x|
-      d = d + matrix[0][x] * cofactor(0,x)
+      det = det + matrix[0][x] * cofactor(0,x)
     end
 
-    d
+    det
   end
 
   def minor(row, column)
@@ -78,7 +78,7 @@ class Matrix
   end
 
   def cofactor(row, column)
-    minor(row, column) * (row+column % 2 == 0 ? 1 : -1)
+    minor(row, column) * ((row+column) % 2 == 0 ? 1 : -1)
   end
 
   def submatrix(row, column)
@@ -100,12 +100,41 @@ class Matrix
     Matrix.new(sub)
   end
 
+  def invertible?
+    determinant != 0
+  end
+
+  def inverse
+    raise ArgumentError.new("Matrix is not invertible") unless invertible?
+
+    m = Array.new(rows) { Array.new(columns) { 0.0 }}
+
+    rows.times do |y|
+      columns.times do |x|
+        c = cofactor(y,x)
+        m[x][y] = c / determinant
+      end
+    end
+
+    Matrix.new(m)
+  end
+
   def transpose
     Matrix.new(matrix.transpose)
   end
 
+  def approximately?(other : Matrix)
+    rows.times do |y|
+      columns.times do |x|
+        return false unless (matrix[y][x] - other.matrix[y][x]).abs < Float32::EPSILON
+      end
+    end
+
+    true
+  end
+
   def ==(other : Matrix)
-    matrix == other.matrix
+    approximately?(other)
   end
 
   def [](row : Int)
