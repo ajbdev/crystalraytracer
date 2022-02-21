@@ -217,5 +217,31 @@ describe Matrix do
       a.minor(1,0).should eq 25
       a.cofactor(1,0).should eq -25
     end
+    it "calculates the determinant of a 3x3 matrix" do
+      a = Matrix.new([
+        [ 1, 2, 6],
+        [-5, 8,-4],
+        [ 2, 6, 4]
+      ])
+
+      a.cofactor(0,0).should eq 56
+      a.cofactor(0,1).should eq 12
+      a.cofactor(0,2).should eq -46
+      a.determinant.should eq -196
+    end
+    it "calculates the determinant of a 4x4 matrix" do
+      a = Matrix.new([
+        [-2,-8, 3, 5],
+        [-3, 1, 7, 3],
+        [ 1, 2,-9, 6],
+        [-6, 7, 7,-9]
+      ])
+
+      a.cofactor(0,0).should eq 690
+      a.cofactor(0,1).should eq 447
+      a.cofactor(0,2).should eq 210
+      a.cofactor(0,3).should eq 51
+      a.determinant.should eq -4071
+    end
   end
 end

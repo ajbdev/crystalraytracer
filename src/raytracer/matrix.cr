@@ -65,7 +65,12 @@ class Matrix
   def determinant
     return (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]) if rows == 2
 
-    raise NotImplementedError.new("Determinants for only 2x2 matrices currently supported")
+    d = 0
+    columns.times do |x|
+      d = d + matrix[0][x] * cofactor(0,x)
+    end
+
+    d
   end
 
   def minor(row, column)
