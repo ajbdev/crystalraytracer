@@ -33,6 +33,19 @@ class Transform < Matrix
     rotation(:z, radians)
   end
 
+  def self.shear(xy : Float64, xz : Float64, yx : Float64, yz : Float64, zx : Float64, zy : Float64)
+    t = Matrix.identity
+
+    t[0][1] = xy
+    t[0][2] = xz
+    t[1][0] = yx
+    t[1][2] = yz
+    t[2][0] = zx
+    t[2][1] = zy
+
+    Matrix.new(t)
+  end
+
   def self.rotation(axis : Symbol, radians : Float64)
     t = Matrix.identity
 

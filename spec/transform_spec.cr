@@ -20,13 +20,13 @@ describe Transform do
     end
   end
   describe "scaling" do
-    it "matrix applied to a point" do
+    it "applies to a point" do
       transform = Transform.scaling(2, 3, 4)
       p = Point.new(-4, 6, 8)
 
       (transform * p).should eq Point.new(-8, 18, 32)
     end
-    it "matrix applied to a vector" do
+    it "applies to a vector" do
       transform = Transform.scaling(2, 3, 4)
       v = Vector.new(-4, 6, 8)
 
@@ -74,5 +74,44 @@ describe Transform do
       (half_quarter * p).should eq Point.new((Math.sqrt(2) / 2) * -1, Math.sqrt(2) / 2, 0)
       (full_quarter * p).should eq Point.new(-1, 0, 0)
     end
+  end
+  describe "shearing" do
+    it "moves x in proportion to y" do
+      transform = Transform.shear(1, 0, 0, 0, 0, 0)
+      p = Point.new(2, 3, 4)
+
+      (transform * p).should eq Point.new(5,3,4)
+    end
+    it "moves x in proportion to z" do
+      transform = Transform.shear(0, 1, 0, 0, 0, 0)
+      p = Point.new(2, 3, 4)
+
+      (transform * p).should eq Point.new(6, 3, 4)
+    end
+    it "moves y in proportion to x" do
+      transform = Transform.shear(0, 0, 1, 0, 0, 0)
+      p = Point.new(2, 3, 4)
+
+      (transform * p).should eq Point.new(2, 5, 4)
+    end
+    it "moves y in proportion to z" do
+      transform = Transform.shear(0, 0, 0, 1, 0, 0)
+      p = Point.new(2, 3, 4)
+
+      (transform * p).should eq Point.new(2, 7, 4)
+    end
+    it "moves z in proportion to x" do
+      transform = Transform.shear(0, 0, 0, 0, 1, 0)
+      p = Point.new(2, 3, 4)
+
+      (transform * p).should eq Point.new(2, 3, 6)
+    end
+    it "moves z in proportion to y" do
+      transform = Transform.shear(0, 0, 0, 0, 0, 1)
+      p = Point.new(2, 3, 4)
+
+      (transform * p).should eq Point.new(2, 3, 7)
+    end
+    
   end
 end
