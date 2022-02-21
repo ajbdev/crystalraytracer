@@ -27,6 +27,11 @@ class Matrix
     end
   end
 
+  def recalc_size
+    @rows = matrix.size
+    @columns = matrix[0].size
+  end
+
   def *(other : Matrix)
     raise DimensionMismatch.new("Matrices must be square and of equal size") if @rows != other.columns
     
@@ -53,13 +58,17 @@ class Matrix
   end
 
   def identity
-    id = Array.new(rows) { Array.new(columns) { 0.0 }}
+    Matrix.new(self.class.identity(rows))
+  end
 
-    rows.times do |i|
+  def self.identity(size = 4)
+    id = Array.new(size) { Array.new(size) { 0.0 }}
+
+    size.times do |i|
       id[i][i] = 1.0
     end
 
-    Matrix.new(id)
+    id
   end
 
   def determinant
@@ -81,23 +90,29 @@ class Matrix
     minor(row, column) * ((row+column) % 2 == 0 ? 1 : -1)
   end
 
-  def submatrix(row, column)
-    sub = [] of Array(Float64)
-
-    # Deep copy
+  def copy
+    c = [] of Array(Float64)
     rows.times do |y|
-      sub << [] of Float64
+      c << [] of Float64
       columns.times do |x|
-        sub[y] << matrix[y][x]
+        c[y] << matrix[y][x]
       end
     end
 
-    sub.delete_at(row)
-    sub.each do |row|
+    Matrix.new(c)
+  end
+
+  def submatrix(row, column)
+    sub = copy
+
+    sub.matrix.delete_at(row)
+    sub.matrix.each do |row|
       row.delete_at(column)
     end
 
-    Matrix.new(sub)
+    sub.recalc_size
+
+    sub
   end
 
   def invertible?
