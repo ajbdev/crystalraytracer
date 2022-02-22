@@ -26,6 +26,10 @@ class Transform < Matrix
     self * self.class.rotate_y(radians)
   end
 
+  def rotate_z(radians : Float64)
+    self * self.class.rotate_z(radians)
+  end
+
   def scale(x : Float64, y : Float64, z : Float64)
     self * self.class.scale(x, y, z)
   end
