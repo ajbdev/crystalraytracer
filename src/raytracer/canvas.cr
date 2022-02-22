@@ -19,6 +19,10 @@ class Canvas
     @pixels[x][y] = c
   end
 
+  def pixel(x : Float64, y : Float64, c : Color)
+    @pixels[x.to_i][y.to_i] = c
+  end
+
   def fill(c : Color)
     height.times do |y|
       width.times do |x|

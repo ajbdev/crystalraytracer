@@ -42,22 +42,22 @@ class Color < CTuple
   end
 
   def self.black
-    self.new(0.0,0.0,0.0)
+    new(0.0,0.0,0.0)
   end
 
   def self.white
-    self.new(1.0,1.0,1.0)
+    new(1.0,1.0,1.0)
   end
 
   def self.red
-    self.new(1.0,0.0,0.0)
+    new(1.0,0.0,0.0)
   end
 
   def self.green
-    self.new(0.0,1.0,0.0)
+    new(0.0,1.0,0.0)
   end
 
   def self.blue
-    self.new(0.0,0.0,1.0)
+    new(0.0,0.0,1.0)
   end
 end

@@ -135,7 +135,7 @@ class Matrix
   end
 
   def transpose
-    self.cass.new(matrix.transpose)
+    self.class.new(matrix.transpose)
   end
 
   def approximately?(other : Matrix)
