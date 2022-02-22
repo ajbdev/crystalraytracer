@@ -50,11 +50,11 @@ class CTuple
   end
 
   def +(t : CTuple)
-    self.class.new(x + t.x, y + t.y, z + t.z, w + t.w)
+    CTuple.new(x + t.x, y + t.y, z + t.z, w + t.w)
   end
 
   def -(t : CTuple)
-    self.class.new(x - t.x, y - t.y, z - t.z, w - t.w)
+    CTuple.new(x - t.x, y - t.y, z - t.z, w - t.w)
   end
 
   def -
