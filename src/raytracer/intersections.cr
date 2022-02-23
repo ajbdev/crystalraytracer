@@ -16,6 +16,10 @@ class Intersections
     end
   end
 
+  def hit
+    @intersections.select { |i| i.t > 0 }.sort { |a,b| a.t <=> b.t }.first
+  end
+
   def each(&block)
     @intersections.each(&block)
   end
