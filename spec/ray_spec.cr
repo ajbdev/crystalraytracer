@@ -22,7 +22,7 @@ describe Ray do
   describe "ray intersection" do
     it "intersects a sphere at two points" do
       r = Ray.new(Point.new(0, 0, -5), Vector.new(0, 0, 1))
-      s = Shapes::Sphere.new()
+      s = Sphere.new()
       xs = s.intersect(r)
       xs.size.should eq 2
       xs.[0]?.should eq 4.0
@@ -30,7 +30,7 @@ describe Ray do
     end
     it "intersects a sphere at a tangent" do
       r = Ray.new(Point.new(0, 1, -5), Vector.new(0, 0, 1))
-      s = Shapes::Sphere.new()
+      s = Sphere.new()
       xs = s.intersect(r)
       xs.size.should eq 2
       xs[0]?.should eq 5.0
@@ -38,13 +38,13 @@ describe Ray do
     end
     it "misses a sphere" do
       r = Ray.new(Point.new(0, 2, -5), Vector.new(0, 0, 1))
-      s = Shapes::Sphere.new()
+      s = Sphere.new()
       xs = s.intersect(r)
       xs.size.should eq 0
     end
     it "orginates inside a sphere" do
       r = Ray.new(Point.new(0, 0, 0), Vector.new(0, 0, 1))
-      s = Shapes::Sphere.new()
+      s = Sphere.new()
       xs = s.intersect(r)
       xs.size.should eq 2
       xs[0]?.should eq -1.0
@@ -52,7 +52,7 @@ describe Ray do
     end
     it "sphere is behind a ray" do
       r = Ray.new(Point.new(0,0,5), Vector.new(0,0,1))
-      s = Shapes::Sphere.new()
+      s = Sphere.new()
       xs = s.intersect(r)
       xs.size.should eq 2
       xs[0]?.should eq -6.0

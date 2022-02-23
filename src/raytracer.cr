@@ -1,2 +1,2 @@
 require "./raytracer/ctuple.cr"
-require "./raytracer/*"
+require "./raytracer/**"
