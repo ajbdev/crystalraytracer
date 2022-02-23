@@ -13,6 +13,6 @@ class Sphere < Shape
     t1 = ((-1 * b) - Math.sqrt(discriminant)) / (2 * a)
     t2 = ((-1 * b) + Math.sqrt(discriminant)) / (2 * a)
 
-    return { t1, t2 }
+    return Intersections.new t1, t2, object: self
   end
 end

@@ -5,6 +5,17 @@ class Intersections
     @intersections = intersections
   end
 
+  def initialize(*intersections)
+    @intersections = intersections.to_a
+  end
+
+  def initialize(*ts, object : Shape)
+    @intersections = [] of Intersection 
+    ts.each do |t|
+      @intersections << Intersection.new(t, object)
+    end
+  end
+
   def each(&block)
     @intersections.each(&block)
   end
