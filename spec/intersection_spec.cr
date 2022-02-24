@@ -7,6 +7,6 @@ describe Intersection do
       i = Intersection.new(3.5, s)
       i.t.should eq 3.5
       i.object.should eq s
-    end   
+    end  
   end
 end

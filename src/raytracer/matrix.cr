@@ -61,6 +61,10 @@ class Matrix
     Matrix.new(self.class.identity(rows))
   end
 
+  def self.new_identity
+    new(identity)
+  end
+
   def self.identity(size = 4)
     id = Array.new(size) { Array.new(size) { 0.0 }}
 

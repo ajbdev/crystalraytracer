@@ -67,6 +67,35 @@ describe Shape do
         xs.[1]?.should_not be_nil
         xs.[1]?.not_nil!.object.should eq s
       end
+      it "inersects a scaled sphere with a ray" do
+        r = Ray.new(Point.new(0,0,-5),Vector.new(0,0,1))
+        s = Sphere.new
+        s.transform = Transform.scale(2,2,2)
+        xs = s.intersect(r)
+        xs.size.should eq 2
+        xs.[0]?.should_not be_nil
+        xs.[0]?.not_nil!.t.should eq 3
+        xs.[1]?.not_nil!.t.should eq 7
+      end
+      it "intersects a translated sphere with a ray" do
+        r = Ray.new(Point.new(0,0,-5), Vector.new(0,0,1))
+        s = Sphere.new
+        s.transform = Transform.translate(5, 0, 0)
+        xs = s.intersect(r)
+        xs.size.should eq 0
+      end
+    end
+    describe "#transform" do
+      it "sphere default transformation" do
+        s = Sphere.new()
+        s.transform.should eq Matrix.new_identity
+      end
+      it "changing a spheres transformation" do
+        s = Sphere.new()
+        t = Transform.translate(2,3,4)
+        s.transform = t
+        s.transform.should eq t
+      end
     end
     
   end
