@@ -91,6 +91,10 @@ class CTuple
     approximately?(other.val)
   end
 
+  def *(other : Matrix)
+    other * self
+  end
+
   def magnitude
     Math.sqrt(x * x + y * y + z * z)
   end
@@ -105,5 +109,13 @@ class CTuple
 
   def cross(b : CTuple)
     self.class.new_vector(y * b.z - z * b.y, z * b.x - x * b.z, x * b.y - y * b.x)
+  end
+
+  def to_point()
+    Point.new(@tuple[0],@tuple[1],@tuple[2])
+  end
+
+  def to_vector()
+    Vector.new(@tuple[0],@tuple[1],@tuple[2])
   end
 end
