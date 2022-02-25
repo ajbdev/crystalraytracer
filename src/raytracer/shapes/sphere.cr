@@ -16,4 +16,8 @@ class Sphere < Shape
 
     return Intersections.new t1, t2, object: self
   end
+
+  def normal_at(p : Point)
+    (p - Point.new(0,0,0)).normalize
+  end
 end

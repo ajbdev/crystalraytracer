@@ -13,7 +13,7 @@ describe Shape do
     describe "intersection" do
       it "ray intersects a sphere at two points" do
         r = Ray.new(Point.new(0, 0, -5), Vector.new(0, 0, 1))
-        s = Sphere.new()
+        s = Sphere.new
         xs = s.intersect(r)
         xs.size.should eq 2
         xs.[0]?.should_not be_nil
@@ -23,7 +23,7 @@ describe Shape do
       end
       it "ray intersects a sphere at a tangent" do
         r = Ray.new(Point.new(0, 1, -5), Vector.new(0, 0, 1))
-        s = Sphere.new()
+        s = Sphere.new
         xs = s.intersect(r)
         xs.size.should eq 2
         xs.[0]?.should_not be_nil
@@ -33,13 +33,13 @@ describe Shape do
       end
       it "ray misses a sphere" do
         r = Ray.new(Point.new(0, 2, -5), Vector.new(0, 0, 1))
-        s = Sphere.new()
+        s = Sphere.new
         xs = s.intersect(r)
         xs.size.should eq 0
       end
       it "ray orginates inside a sphere" do
         r = Ray.new(Point.new(0, 0, 0), Vector.new(0, 0, 1))
-        s = Sphere.new()
+        s = Sphere.new
         xs = s.intersect(r)
         xs.size.should eq 2
         xs.[0]?.should_not be_nil
@@ -49,7 +49,7 @@ describe Shape do
       end
       it "sphere is behind a ray" do
         r = Ray.new(Point.new(0,0,5), Vector.new(0,0,1))
-        s = Sphere.new()
+        s = Sphere.new
         xs = s.intersect(r)
         xs.size.should eq 2
         xs.[0]?.should_not be_nil
@@ -87,16 +87,44 @@ describe Shape do
     end
     describe "#transform" do
       it "sphere default transformation" do
-        s = Sphere.new()
+        s = Sphere.new
         s.transform.should eq Matrix.new_identity
       end
       it "changing a spheres transformation" do
-        s = Sphere.new()
+        s = Sphere.new
         t = Transform.translate(2,3,4)
         s.transform = t
         s.transform.should eq t
       end
     end
+    describe "#normal_at" do
+      it "on a sphere at a point on the x axis" do
+        s = Sphere.new
+        n = s.normal_at(Point.new(1,0,0))
+        n.should eq Vector.new(1,0,0)
+      end
+      it "on a sphere at a point on the y axis" do
+        s = Sphere.new
+        n = s.normal_at(Point.new(0,1,0))
+        n.should eq Vector.new(0,1,0)
+      end
+      it "on a sphere at a point on the z axis" do
+        s = Sphere.new
+        n = s.normal_at(Point.new(0,0,1))
+        n.should eq Vector.new(0,0,1)
+      end
+      it "on a sphere at a nonaxial point" do
+        s = Sphere.new
+        n = s.normal_at(Point.new(Math.sqrt(3)/3,Math.sqrt(3)/3,Math.sqrt(3)/3))
+        n.should eq Vector.new(Math.sqrt(3)/3,Math.sqrt(3)/3,Math.sqrt(3)/3)
+      end
+      it "is a normalized vector" do
+        s = Sphere.new
+        n = s.normal_at(Point.new(Math.sqrt(3)/3,Math.sqrt(3)/3,Math.sqrt(3)/3))
+        n.should eq n.normalize
+      end
+    end
+
     
   end
 end
