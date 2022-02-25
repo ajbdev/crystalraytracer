@@ -1,4 +1,4 @@
-require "./raytracer.cr"
+require "../src/raytracer.cr"
 
 struct Environment
   property gravity : CTuple

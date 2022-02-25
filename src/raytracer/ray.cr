@@ -8,8 +8,8 @@ class Ray
   end
 
   def initialize(origin : CTuple, direction : CTuple)
-    @origin = origin.as Point
-    @direction = direction.as Vector
+    @origin = origin.to_point
+    @direction = direction.to_vector
   end
 
   def position(t : Float64)

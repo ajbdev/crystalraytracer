@@ -9,7 +9,7 @@ class Sphere < Shape
 
     discriminant = b * b - 4 * a * c
 
-    return Tuple.new if discriminant < 0
+    return Intersections.new if discriminant < 0
       
     t1 = ((-1 * b) - Math.sqrt(discriminant)) / (2 * a)
     t2 = ((-1 * b) + Math.sqrt(discriminant)) / (2 * a)

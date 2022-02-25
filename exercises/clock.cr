@@ -1,4 +1,4 @@
-require "./raytracer.cr"
+require "../src/raytracer.cr"
 
 
 canvas = Canvas.new(380, 380)
