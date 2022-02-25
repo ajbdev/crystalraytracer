@@ -17,14 +17,16 @@ color = Color.new(1,0,0)
 shape = Sphere.new
 
 canvas_pixels.times do |y|
-  world_y = half - (pixel_size * y)
+  world_y = half - pixel_size * y
   canvas_pixels.times do |x|
     world_x = (half*-1) + (pixel_size * x)
     position = Point.new(world_x, world_y, wall_z)
+    
     r = Ray.new(ray_origin, (position - ray_origin).normalize)
+
     xs = shape.intersect(r)
 
-    canvas.pixel(x, y, color) if xs.hit
+    canvas.pixel(x, y, color) if xs.hit?
   end
 end
 

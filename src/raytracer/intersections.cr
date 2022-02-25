@@ -16,8 +16,16 @@ class Intersections
     end
   end
 
+  def hit?
+    sorted_by_distance.first?
+  end
+
   def hit
-    @intersections.select { |i| i.t > 0 }.sort { |a,b| a.t <=> b.t }.first
+    sorted_by_distance.first
+  end
+
+  def sorted_by_distance
+    @intersections.select { |i| i.t > 0 }.sort { |a,b| a.t <=> b.t }
   end
 
   def each(&block)
