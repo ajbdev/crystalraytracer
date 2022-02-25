@@ -123,6 +123,19 @@ describe Shape do
         n = s.normal_at(Point.new(Math.sqrt(3)/3,Math.sqrt(3)/3,Math.sqrt(3)/3))
         n.should eq n.normalize
       end
+      it "computes on a translated sphere" do
+        s = Sphere.new
+        s.transform = Transform.translate(0,1,0)
+        n = s.normal_at(Point.new(0, 1.70711, -0.70711))
+        n.should eq Vector.new(0, 1.70711, -0.70711)
+      end
+      it "computes the normal on a transformed sphere" do
+        s = Sphere.new
+        m = Transform.scale(1,0.5,1) * Transform.rotate_z(Math::PI / 5)
+        s.transform = m
+        n = s.normal_at(Point.new(0, Math.sqrt(2)/2, (Math.sqrt(2)/2)*-1))
+        n.should eq Vector.new(0, 0.97014, -0.24254)
+      end
     end
 
     
