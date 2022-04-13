@@ -5,6 +5,8 @@
 # and provides utility methods for creating and accessing coordinatae values and maths.
 
 class CTuple
+  EQUALITY_DELTA_THRESHOLD = Float64::EPSILON
+
   def initialize(tuple : Tuple)
     @tuple = tuple
   end
@@ -65,12 +67,12 @@ class CTuple
     self.new(x, y, z, 0.0)
   end
 
-  def +(t : CTuple)
-    CTuple.new(x + t.x, y + t.y, z + t.z, w + t.w)
+  def +(other : CTuple)
+    CTuple.new(x + other.x, y + other.y, z + other.z, w + other.w)
   end
 
-  def -(t : CTuple)
-    CTuple.new(x - t.x, y - t.y, z - t.z, w - t.w)
+  def -(other : CTuple)
+    CTuple.new(x - other.x, y - other.y, z - other.z, w - other.w)
   end
 
   def -
@@ -98,9 +100,9 @@ class CTuple
   end
 
   def approximately?(b : Tuple)
-    (@tuple[0] - b[0]).abs < Float64::EPSILON &&
-    (@tuple[1] - b[1]).abs < Float64::EPSILON &&
-    (@tuple[2] - b[2]).abs < Float64::EPSILON
+    (@tuple[0] - b[0]).abs < EQUALITY_DELTA_THRESHOLD &&
+    (@tuple[1] - b[1]).abs < EQUALITY_DELTA_THRESHOLD &&
+    (@tuple[2] - b[2]).abs < EQUALITY_DELTA_THRESHOLD
   end
 
   def ==(other : CTuple)
@@ -127,8 +129,8 @@ class CTuple
     self.class.new_vector(y * b.z - z * b.y, z * b.x - x * b.z, x * b.y - y * b.x)
   end
 
-  def reflect(normal : CTuple)
-    self - normal * 2 * dot(normal)
+  def reflect(normal : Vector)
+    self - normal * 2 * self.dot(normal)
   end
 
   def to_point()

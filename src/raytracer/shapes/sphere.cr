@@ -20,6 +20,7 @@ class Sphere < Shape
   def normal_at(p : Point)
     object_point = transform.inverse * p
     object_normal = object_point - Point.new(0,0,0)
+
     world_normal = transform.inverse.transpose * object_normal
     world_normal.w = 0
 
