@@ -113,5 +113,23 @@ describe CTuple do
       b.cross(a).val.should eq({1.0,-2.0,1.0,0.0})
     end
   end
+
+  describe "#reflect" do
+    it "reflects a vector approaching 45°" do
+      v = Vector.new(1, -1, 0)
+      n = Vector.new(0, 1, 0)
+      r = v.reflect(n)
+
+      r.should eq Vector.new(1, 1, 0)
+    end
+
+    it "reflects a vector off a slanted surface" do
+      v = Vector.new(0, -1, 0)
+      n = Vector.new(Math.sqrt(2)/2, Math.sqrt(2)/2, 0)
+      r = v.reflect(n)
+
+      r.should eq Vector.new(1, 0, 0)
+    end
+  end
   
 end

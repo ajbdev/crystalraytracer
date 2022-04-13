@@ -127,6 +127,10 @@ class CTuple
     self.class.new_vector(y * b.z - z * b.y, z * b.x - x * b.z, x * b.y - y * b.x)
   end
 
+  def reflect(normal : CTuple)
+    self - normal * 2 * dot(normal)
+  end
+
   def to_point()
     Point.new(@tuple[0],@tuple[1],@tuple[2])
   end
