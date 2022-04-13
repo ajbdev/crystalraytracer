@@ -17,16 +17,32 @@ class CTuple
     @tuple[0]
   end
 
+  def x=(f : Float64)
+    @tuple = {f,y,z,w}
+  end
+
   def y
     @tuple[1]
+  end
+
+  def y=(f : Float64)
+    @tuple = {x,f,z,w}
   end
 
   def z
     @tuple[2]
   end
 
+  def z=(f : Float64)
+    @tuple = {x,y,f,w}
+  end
+
   def w
     @tuple[3]
+  end
+
+  def w=(f : Float64)
+    @tuple = {x,y,z,f}
   end
 
   def val
