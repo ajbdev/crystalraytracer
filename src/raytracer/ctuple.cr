@@ -121,16 +121,16 @@ class CTuple
     self.class.new(x/magnitude, y/magnitude, z/magnitude, w/magnitude)
   end
 
-  def dot(b : CTuple)
-    x * b.x + y * b.y + z * b.z + w * b.w
+  def dot(other : CTuple)
+    x * other.x + y * other.y + z * other.z + w * other.w
   end
 
-  def cross(b : CTuple)
-    self.class.new_vector(y * b.z - z * b.y, z * b.x - x * b.z, x * b.y - y * b.x)
+  def cross(other : CTuple)
+    self.class.new_vector(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x)
   end
 
   def reflect(normal : Vector)
-    self - normal * 2 * self.dot(normal)
+    self - (normal * 2 * self.dot(normal))
   end
 
   def to_point()
