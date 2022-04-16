@@ -127,8 +127,13 @@ class CTuple
     self.class.new_vector(y * b.z - z * b.y, z * b.x - x * b.z, x * b.y - y * b.x)
   end
 
+  def to_f32
+    self.class.new(x.to_f32.to_f64,y.to_f32.to_f64,z.to_f32.to_f64,w.to_f32.to_f64)
+  end
+
   def reflect(normal : CTuple)
-    self - normal * 2 * dot(normal)
+    n = normal * 2 * dot(normal)
+    self - n.to_f32
   end
 
   def to_point()
