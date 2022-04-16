@@ -5,6 +5,8 @@
 # and provides utility methods for creating and accessing coordinatae values and maths.
 
 class CTuple
+  EQUALITY_DELTA_THRESHOLD = Float64::EPSILON
+
   def initialize(tuple : Tuple)
     @tuple = tuple
   end
@@ -65,12 +67,12 @@ class CTuple
     self.new(x, y, z, 0.0)
   end
 
-  def +(t : CTuple)
-    CTuple.new(x + t.x, y + t.y, z + t.z, w + t.w)
+  def +(other : CTuple)
+    CTuple.new(x + other.x, y + other.y, z + other.z, w + other.w)
   end
 
-  def -(t : CTuple)
-    CTuple.new(x - t.x, y - t.y, z - t.z, w - t.w)
+  def -(other : CTuple)
+    CTuple.new(x - other.x, y - other.y, z - other.z, w - other.w)
   end
 
   def -
@@ -98,9 +100,9 @@ class CTuple
   end
 
   def approximately?(b : Tuple)
-    (@tuple[0] - b[0]).abs < Float64::EPSILON &&
-    (@tuple[1] - b[1]).abs < Float64::EPSILON &&
-    (@tuple[2] - b[2]).abs < Float64::EPSILON
+    (@tuple[0] - b[0]).abs < EQUALITY_DELTA_THRESHOLD &&
+    (@tuple[1] - b[1]).abs < EQUALITY_DELTA_THRESHOLD &&
+    (@tuple[2] - b[2]).abs < EQUALITY_DELTA_THRESHOLD
   end
 
   def ==(other : CTuple)
@@ -119,12 +121,12 @@ class CTuple
     self.class.new(x/magnitude, y/magnitude, z/magnitude, w/magnitude)
   end
 
-  def dot(b : CTuple)
-    x * b.x + y * b.y + z * b.z + w * b.w
+  def dot(other : CTuple)
+    x * other.x + y * other.y + z * other.z + w * other.w
   end
 
-  def cross(b : CTuple)
-    self.class.new_vector(y * b.z - z * b.y, z * b.x - x * b.z, x * b.y - y * b.x)
+  def cross(other : CTuple)
+    self.class.new_vector(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x)
   end
 
   def to_f32
