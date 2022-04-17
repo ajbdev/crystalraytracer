@@ -8,8 +8,8 @@ class Ray
   end
 
   def initialize(origin : CTuple, direction : CTuple)
-    @origin = origin.to_point
-    @direction = direction.to_vector
+    @origin = origin.as_point
+    @direction = direction.as_vector
   end
 
   def position(t : Float64)
@@ -18,8 +18,8 @@ class Ray
 
   def transform(m : Matrix)
     ray = Ray.new(
-      (self.origin * m).to_point,
-      (self.direction * m).to_vector
+      (self.origin * m).as_point,
+      (self.direction * m).as_vector
     )
 
     ray

@@ -109,8 +109,8 @@ class CTuple
     approximately?(other.val)
   end
 
-  def *(other : Matrix)
-    other * self
+  def *(matrix : Matrix)
+    matrix * self
   end
 
   def magnitude
@@ -138,11 +138,11 @@ class CTuple
     self - n.clamp_to_f32_values
   end
 
-  def to_point()
+  def as_point()
     Point.new(@tuple[0],@tuple[1],@tuple[2])
   end
 
-  def to_vector()
+  def as_vector()
     Vector.new(@tuple[0],@tuple[1],@tuple[2])
   end
 end

@@ -136,6 +136,20 @@ describe Shape do
         n.should eq Vector.new(0, 0.9701425001453319, -0.24253562503633294)
       end
     end
+    describe "#material" do
+      it "has a default material" do
+        s = Sphere.new
+        m = s.material
+        m.class.should eq Material
+      end
+      it "can be assigned a material" do
+        s = Sphere.new
+        m = Material.new
+        m.ambient = 1
+        s.material = m
+        s.material.should eq m
+      end
+    end
 
     
   end
