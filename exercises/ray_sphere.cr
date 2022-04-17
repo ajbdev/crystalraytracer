@@ -14,7 +14,13 @@ half = wall_size / 2
 
 canvas = Canvas.new(canvas_pixels, canvas_pixels)
 color = Color.new(1,0,0)
-shape = Sphere.new
+sphere = Sphere.new
+
+sphere.material.color = Color.new(1,0.2,1)
+
+light_pos = Point.new(-10,10,-10)
+light_color = Color.new(1,1,1)
+light = Lights::Point.new(light_pos, light_color)
 
 canvas_pixels.times do |y|
   world_y = half - pixel_size * y
@@ -24,9 +30,18 @@ canvas_pixels.times do |y|
     
     r = Ray.new(ray_origin, (position - ray_origin).normalize)
 
-    xs = shape.intersect(r)
+    xs = sphere.intersect(r)
 
-    canvas.pixel(x, y, color) if xs.hit?
+    next unless xs.hit?
+
+    hit = xs[0]
+
+    point = r.position(hit.t)
+    normal = hit.object.normal_at(point)
+    eye = -r.direction
+    color = hit.object.material.lighting(light, point, eye, normal)
+
+    canvas.pixel(x, y, color)
   end
 end
 

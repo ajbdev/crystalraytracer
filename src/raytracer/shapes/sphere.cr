@@ -17,7 +17,7 @@ class Sphere < Shape
     return Intersections.new t1, t2, object: self
   end
 
-  def normal_at(p : Point)
+  def normal_at(p : CTuple)
     object_point = transform.inverse * p
     object_normal = object_point - Point.new(0,0,0)
 

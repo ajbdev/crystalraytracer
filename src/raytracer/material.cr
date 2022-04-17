@@ -13,7 +13,7 @@ class Material
     @color = Color.white
   end
 
-  def lighting(light : Lights::Point, point : Point, eye_v : Vector, normal_v : Vector)
+  def lighting(light : Lights::Point, point : CTuple, eye_v : CTuple, normal_v : CTuple)
     effective_color = @color * light.intensity
     light_v = (light.position - point).normalize
 
