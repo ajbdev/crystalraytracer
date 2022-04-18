@@ -13,6 +13,18 @@ class World
     xs
   end
 
+  def shade_hit(comps : Computations)
+    comps.object.material.lighting(@light.not_nil!, comps.point, comps.eye_v, comps.normal_v)
+  end
+
+  def color_at(ray : Ray)
+    xs = intersect(ray)
+
+    return Color.black unless xs.hit?
+
+    shade_hit(xs.hit.precompute(ray))
+  end
+
   def self.default
     w = World.new
     w.objects = [

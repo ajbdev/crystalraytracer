@@ -24,7 +24,8 @@ describe World do
       # w.objects.should contain(s1)
       # w.objects.should contain(s2)
     end
-
+  end
+  describe "#intersect" do
     it "intersects a world with a ray" do
       w = World.default
       r = Ray.new(Point.new(0,0,-5), Vector.new(0,0,1))
@@ -35,6 +36,30 @@ describe World do
       xs[1].t.should eq 4.5
       xs[2].t.should eq 5.5
       xs[3].t.should eq 6
+    end
+  end
+  describe "#color_at" do
+    it "the color when a ray misses" do
+      w = World.default
+      r = Ray.new(Point.new(0,0,-5), Vector.new(0,1,0))
+      c = w.color_at(r)
+      c.should eq Color.new(0,0,0)
+    end
+    it "the color when a ray hits" do
+      w = World.default
+      r = Ray.new(Point.new(0,0,-5), Vector.new(0,0,1))
+      c = w.color_at(r)
+      c.should eq Color.new(0.38066119308103435, 0.47582649135129296, 0.28549589481077575)
+    end
+    it "the color with an intersection behind the ray" do
+      w = World.default
+      outer = w.objects.first
+      outer.material.ambient = 1
+      inner = w.objects[1]
+      inner.material.ambient = 1
+      r = Ray.new(Point.new(0,0,0.75), Vector.new(0,0,-1))
+      c = w.color_at(r)
+      c.should eq inner.material.color
     end
   end
 end
