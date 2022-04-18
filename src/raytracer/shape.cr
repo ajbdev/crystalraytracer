@@ -2,9 +2,9 @@ abstract class Shape
   property transform : Matrix
   property material : Material
 
-  def initialize
-    @transform = Matrix.new(Matrix.identity)
-    @material = Material.new
+  def initialize(material = Material.new, transform = Matrix.new(Matrix.identity))
+    @material = material
+    @transform = transform
   end
 
   abstract def intersect(ray : Ray)
