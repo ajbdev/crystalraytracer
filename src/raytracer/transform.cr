@@ -1,3 +1,4 @@
+# Transform operations
 class Transform < Matrix
 
   def initialize(rows, columns)
@@ -40,6 +41,22 @@ class Transform < Matrix
 
   def shear(xy : Float64, xz : Float64, yx : Float64, yz : Float64, zx : Float64, zy : Float64)
     self * self.class.shear(xy, xz, yx, yz, zx, zy)
+  end
+
+  def view_transform(from : Point, to : Point, up : Vector)
+    forward = (to - from).normalize
+    up_n = up.normalize
+    left = forward.cross(up_n)
+    true_up = left.cross(forward)
+
+    orientation = Matrix.new([
+      [left.x,     left.y,     left.z,     0.0],
+      [true_up.x,  true_up.y,  true_up.z,  0.0],
+      [-forward.x, -forward.y, -forward.z, 0.0],
+      [0.0,        0.0,        0.0,        1.0]
+    ])
+
+    orientation * translate(-from.x, -from.y, -from.z)
   end
 
   def self.translate(x : Float64, y : Float64, z : Float64, t = Matrix.identity)
