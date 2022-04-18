@@ -165,7 +165,7 @@ describe Transform do
 
       t = Transform.new.view_transform(from, to, up)
       
-      t.matrix.should eq([
+      t.should eq([
         [ -0.50709, 0.50709, 0.67612,   -2.36643 ],
         [ 0.76772,  0.60609, 0.12122,   -2.82843 ],
         [ -0.35857, 0.59761, -0.71714,  0.00000 ],

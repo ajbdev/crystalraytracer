@@ -143,9 +143,15 @@ class Matrix
   end
 
   def approximately?(other : Matrix)
+    approximately?(other.matrix)
+  end
+
+  def approximately?(arr : Array(Array(Float64)))
+    raise DimensionMismatch.new("Matrices must be square and of equal size") if @rows != arr.size || @columns != arr[0].size
+
     rows.times do |y|
       columns.times do |x|
-        return false unless (matrix[y][x] - other.matrix[y][x]).abs < CTuple::EPSILON
+        return false unless (matrix[y][x] - arr[y][x]).abs < CTuple::EPSILON
       end
     end
 
@@ -154,6 +160,10 @@ class Matrix
 
   def ==(other : Matrix)
     approximately?(other)
+  end
+
+  def ==(arr : Array(Array(Float64)))
+    approximately?(arr)
   end
 
   def [](row : Int)
