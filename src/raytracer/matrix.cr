@@ -145,7 +145,7 @@ class Matrix
   def approximately?(other : Matrix)
     rows.times do |y|
       columns.times do |x|
-        return false unless (matrix[y][x] - other.matrix[y][x]).abs < Float32::EPSILON
+        return false unless (matrix[y][x] - other.matrix[y][x]).abs < CTuple::EPSILON
       end
     end
 

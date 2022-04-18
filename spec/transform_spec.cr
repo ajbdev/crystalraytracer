@@ -142,21 +142,21 @@ describe Transform do
 
       t.matrix.should eq Matrix.identity
     end
-    it "a view transofmration matrix looking in positive z direction" do
+    it "a view transformation matrix looking in positive z direction" do
       from = Point.new(0,0,0)
-      to = Point.new(0,0,0)
+      to = Point.new(0,0,1)
       up = Vector.new(0,1,0)
 
       t = Transform.new.view_transform(from, to, up)
 
-      t.matrix.should eq Transform.scale(-1, 1, -1)
+      t.matrix.should eq Transform.scale(-1, 1, -1).matrix
     end
     it "the view transformation moves the world" do
       from = Point.new(0,0,8)
       to = Point.new(0,0,0)
       up = Vector.new(0,1,0)
       t = Transform.new.view_transform(from, to, up)
-      t.should eq Transform.translate(0,0,-8)
+      t.matrix.should eq Transform.translate(0,0,-8).matrix
     end
     it "an arbitrary view transformation" do
       from = Point.new(1,3,2)

@@ -5,7 +5,7 @@
 # and provides utility methods for creating and accessing coordinatae values and maths.
 
 class CTuple
-  EQUALITY_DELTA_THRESHOLD = Float64::EPSILON
+  EPSILON = 0.00001
 
   def initialize(tuple : Tuple)
     @tuple = tuple
@@ -100,9 +100,9 @@ class CTuple
   end
 
   def approximately?(b : Tuple)
-    (@tuple[0] - b[0]).abs < EQUALITY_DELTA_THRESHOLD &&
-    (@tuple[1] - b[1]).abs < EQUALITY_DELTA_THRESHOLD &&
-    (@tuple[2] - b[2]).abs < EQUALITY_DELTA_THRESHOLD
+    (@tuple[0] - b[0]).abs < EPSILON &&
+    (@tuple[1] - b[1]).abs < EPSILON &&
+    (@tuple[2] - b[2]).abs < EPSILON
   end
 
   def ==(other : CTuple)
