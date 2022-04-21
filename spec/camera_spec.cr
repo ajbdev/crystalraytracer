@@ -15,12 +15,12 @@ describe Camera do
 
     it "the pixel size for a horizontal canvas" do
       c = Camera.new(200, 125, Math::PI / 2)
-      c.pixel_size.should eq 0.01
+      c.pixel_size.should eq 0.01.to_f32
     end
 
     it "the pixel size for a vertical canvas" do
       c = Camera.new(125, 200, Math::PI / 2)
-      c.pixel_size.should eq 0.01
+      c.pixel_size.should eq 0.01.to_f32
     end
   end
 end
