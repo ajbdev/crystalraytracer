@@ -10,19 +10,31 @@ class Camera
     @v_size = v_size
     @fov = fov
     @transform = Matrix.new_identity
-    @pixel_size = calc_pixel_size
+    @pixel_size = 0
+    @half_width = 0.0
+    @half_height = 0.0
+
+    calc_sizes
   end
 
-  def calc_pixel_size
+  def calc_sizes
     if aspect_ratio < 1
-      half_width = half_view * aspect_ratio
-      half_height = half_view
+      @half_width = half_view * aspect_ratio
+      @half_height = half_view
     else
-      half_width = half_view
-      half_height = half_view / aspect_ratio
+      @half_width = half_view
+      @half_height = half_view / aspect_ratio
     end
 
-    (half_width * 2 / @h_size).to_f32
+    @pixel_size = (@half_width * 2 / @h_size).to_f32
+  end
+
+  def ray_for_pixel(px, py)
+    x = (px.to_f32 - 0.5) * @pixel_size
+    y = (py.to_f32 - 0.5) * @pixel_size
+
+    # world_x = 
+    #Ray.new(origin, direction_from_angle(x, y))
   end
 
   def half_view
