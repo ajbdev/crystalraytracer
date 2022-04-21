@@ -43,6 +43,20 @@ class Camera
     Ray.new(origin, direction)
   end
 
+  def render(world : World)
+    img = Canvas.new(@h_size, @v_size)
+
+    0..@v_size.to_i.times do |y|
+      0..@h_size.to_i.times do |x|
+        ray = ray_for_pixel(x, y)
+        color = world.color_at(ray)
+        img.pixel(x, y, color)
+      end
+    end
+
+    img
+  end
+
   def half_view
     Math.tan(@fov / 2)
   end

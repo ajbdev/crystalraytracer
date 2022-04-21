@@ -63,4 +63,17 @@ describe Camera do
       r.direction.should eq Vector.new(Math.sqrt(2) / 2, 0, -Math.sqrt(2) / 2)
     end
   end
+
+  describe "#render" do
+    it "renders a world with a camera" do
+      w = World.default
+      c = Camera.new(11, 11, Math::PI / 2)
+      from = Point.new(0, 0, -5)
+      to = Point.new(0, 0, 0)
+      up = Vector.new(0, 1, 0)
+      c.transform = Transform.view_transform(from, to, up)
+      img = c.render(w)
+      img.pixel(5,5).should eq Color.new(0.38066, 0.47583, 0.2855)
+    end
+  end
 end

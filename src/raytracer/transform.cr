@@ -59,6 +59,10 @@ class Transform < Matrix
     orientation * translate(-from.x, -from.y, -from.z)
   end
 
+  def self.view_transform(from : Point, to : Point, up : Vector)
+    new.view_transform(from, to, up)
+  end
+
   def self.translate(x : Float64, y : Float64, z : Float64, t = Matrix.identity)
     t[0][3] = x
     t[1][3] = y
