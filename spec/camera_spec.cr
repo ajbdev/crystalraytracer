@@ -41,7 +41,7 @@ describe Camera do
 
     it "constructs a ray when the camera is transformed" do
       c = Camera.new(201, 101, Math::PI / 2)
-      c.transform = Matrix.rotation_y(Math::PI / 4) * Matrix.translation(0, -2, 5)
+      c.transform = Transform.rotate_y(Math::PI / 4) * Transform.translate(0, -2, 5)
       r = c.ray_for_pixel(100, 50)
       r.origin.should eq Point.new(0, 2, -5)
       r.direction.should eq Vector.new(Math.sqrt(2) / 2, 0, -Math.sqrt(2) / 2)
@@ -49,7 +49,7 @@ describe Camera do
 
     it "constructs a ray when the camera is transformed" do
       c = Camera.new(201, 101, Math::PI / 2)
-      c.transform = Matrix.rotation_y(Math::PI / 4) * Matrix.translation(0, -2, 5)
+      c.transform = Transform.rotate_y(Math::PI / 4) * Transform.translate(0, -2, 5)
       r = c.ray_for_pixel(100, 50)
       r.origin.should eq Point.new(0, 2, -5)
       r.direction.should eq Vector.new(Math.sqrt(2) / 2, 0, -Math.sqrt(2) / 2)
@@ -57,7 +57,7 @@ describe Camera do
 
     it "constructs a ray when the camera is transformed" do
       c = Camera.new(201, 101, Math::PI / 2)
-      c.transform = Matrix.rotation_y(Math::PI / 4) * Matrix.translation(0, -2, 5)
+      c.transform = Transform.rotate_y(Math::PI / 4) * Transform.translate(0, -2, 5)
       r = c.ray_for_pixel(100, 50)
       r.origin.should eq Point.new(0, 2, -5)
       r.direction.should eq Vector.new(Math.sqrt(2) / 2, 0, -Math.sqrt(2) / 2)

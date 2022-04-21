@@ -30,11 +30,17 @@ class Camera
   end
 
   def ray_for_pixel(px, py)
-    x = (px.to_f32 - 0.5) * @pixel_size
-    y = (py.to_f32 - 0.5) * @pixel_size
+    x = (px.to_f32 + 0.5) * @pixel_size
+    y = (py.to_f32 + 0.5) * @pixel_size
 
-    # world_x = 
-    #Ray.new(origin, direction_from_angle(x, y))
+    world_x = @half_width - x
+    world_y = @half_height - y
+
+    pixel = @transform.inverse * Point.new(world_x, world_y, -1)
+    origin = @transform.inverse * Point.new(0, 0, 0)
+    direction = (pixel - origin).normalize
+
+    Ray.new(origin, direction)
   end
 
   def half_view
