@@ -21,7 +21,7 @@ class Intersections
   end
 
   def hit?
-    sorted_by_distance.first?
+    !!sorted_by_distance.first?
   end
 
   def hit

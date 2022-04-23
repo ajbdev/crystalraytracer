@@ -15,8 +15,11 @@ describe World do
       s2.transform = Transform.scale(0.5, 0.5, 0.5)
 
       w = World.default
-      w.light.not_nil!.position.should eq light.position
-      w.light.not_nil!.intensity.should eq light.intensity
+
+      next unless (light = w.light)
+
+      light.position.should eq light.position
+      light.intensity.should eq light.intensity
 
       w.objects.size.should eq 2
       # Need to fix, class comparisons are not value comparisons
@@ -60,6 +63,44 @@ describe World do
       r = Ray.new(Point.new(0,0,0.75), Vector.new(0,0,-1))
       c = w.color_at(r)
       c.should eq inner.material.color
+    end
+  end
+  describe "#is_shadowed" do
+    it "there is no shadow when nothing is collinear with point and light" do
+      w = World.default
+      p = Point.new(0,10,0)
+      w.is_shadowed(p).should eq false
+    end
+    it "the shadow when an object is between the point and the light" do
+      w = World.default
+      p = Point.new(10,-10,10)
+      w.is_shadowed(p).should eq true
+    end
+    it "there is no shadow when an object is behind the light" do
+      w = World.default
+      p = Point.new(-20, 20, -20)
+      w.is_shadowed(p).should eq false
+    end
+    it "there is no shadow when an object is behind the point" do
+      w = World.default
+      p = Point.new(-2, 2, -2)
+      w.is_shadowed(p).should eq false
+    end
+  end
+  describe "#shade_hit" do
+    it "shade_hit is given an intersection in shadow" do
+      w = World.new
+      w.light = Lights::Point.new(Point.new(0,0,-10),Color.new(1,1,1))
+      s1 = Sphere.new
+      w.objects << s1
+      s2 = Sphere.new
+      s2.transform = Transform.translate(0,0,10)
+      w.objects << s2
+      r = Ray.new(Point.new(0,0,5),Vector.new(0,0,1))
+      i = Intersection.new(4, s2)
+      comps = i.precompute(r)
+      c = w.shade_hit(comps)
+      c.should eq Color.new(0.1,0.1,0.1)
     end
   end
 end

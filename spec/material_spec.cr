@@ -10,10 +10,11 @@ describe Material do
     end
   end
 
+  before_each_it = -> {
+    { Material.new, Point.new(0,0,0) }
+  }
+  
   describe "#lighting" do
-    before_each_it = -> {
-      { Material.new, Point.new(0,0,0) }
-    }
 
     it "lighting with the eye between the light and the surface" do
       m, position = before_each_it.call
@@ -68,6 +69,19 @@ describe Material do
 
       result = m.lighting(light, position, eye_v, normal_v)
       result.should eq Color.new(0.1, 0.1, 0.1)
+    end
+  end
+
+  describe "shadows" do
+    it "lighting with the surface in shadow" do
+      m, position = before_each_it.call
+
+      eye_v = Vector.new(0, 0, -1)
+      normal_v = Vector.new(0, 0, -1)
+      light = Lights::Point.new(Point.new(0,0,-10),Color.new(1,1,1))
+      in_shadow = true
+      result = m.lighting(light, position, eye_v, normal_v, in_shadow)
+      result.should eq Color.new(0.1,0.1,0.1)
     end
   end
 end

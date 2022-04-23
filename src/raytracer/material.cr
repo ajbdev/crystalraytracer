@@ -13,7 +13,7 @@ class Material
     @color = color
   end
 
-  def lighting(light : Lights::Point, point : CTuple, eye_v : CTuple, normal_v : CTuple)
+  def lighting(light : Lights::Point, point : CTuple, eye_v : CTuple, normal_v : CTuple, in_shadow : Bool = false)
     effective_color = @color * light.intensity
     light_v = (light.position - point).normalize
 
@@ -37,7 +37,9 @@ class Material
       end
     end
     
-    v = ambient + diffuse + specular
+    v = ambient
+    v += diffuse + specular unless in_shadow
+
     Color.new(v.x, v.y, v.z)
   end
 end
