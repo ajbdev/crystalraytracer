@@ -40,6 +40,17 @@ describe Intersections do
 
       xs.hit.should eq i4
     end
+    it "the hit should offset the point" do
+      r = Ray.new(Point.new(0,0,-5), Vector.new(0,0,1))
+      shape = Sphere.new
+      shape.transform = Transform.translate(0,0,1)
+      i = Intersection.new(5, shape)
+      comps = i.precompute(r)
+
+      comps.over_point.z.should be < -(CTuple::EPSILON/2)
+      comps.point.z.should be > comps.over_point.z
+
+    end
   end
   describe "#precompute" do
     it "precomputes the state of an intersection" do

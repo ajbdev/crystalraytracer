@@ -15,8 +15,11 @@ class World
 
   def shade_hit(comps : Computations)
     return Color.black unless (light = @light)
+
+    #shadowed = is_shadowed(comps.over_point)
+    shadowed = false
     
-    comps.object.material.lighting(light.not_nil!, comps.point, comps.eye_v, comps.normal_v)
+    comps.object.material.lighting(light, comps.point, comps.eye_v, comps.normal_v, shadowed)
   end
 
   def color_at(ray : Ray)
@@ -27,7 +30,7 @@ class World
     shade_hit(xs.hit.precompute(ray))
   end
 
-  def is_shadowed(point : Point)
+  def is_shadowed(point : CTuple)
     return true unless (light = @light)
 
     v = light.position - point

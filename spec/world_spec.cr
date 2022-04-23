@@ -88,17 +88,23 @@ describe World do
     end
   end
   describe "#shade_hit" do
-    it "shade_hit is given an intersection in shadow" do
+    it "is given an intersection in shadow" do
       w = World.new
       w.light = Lights::Point.new(Point.new(0,0,-10),Color.new(1,1,1))
+      
       s1 = Sphere.new
       w.objects << s1
+
       s2 = Sphere.new
       s2.transform = Transform.translate(0,0,10)
+
       w.objects << s2
+
       r = Ray.new(Point.new(0,0,5),Vector.new(0,0,1))
       i = Intersection.new(4, s2)
+
       comps = i.precompute(r)
+
       c = w.shade_hit(comps)
       c.should eq Color.new(0.1,0.1,0.1)
     end
