@@ -13,6 +13,10 @@ struct Computations
     @point = point
     @eye_v = eye_v
     @normal_v = normal_v
-    @over_point = point + @normal_v * CTuple::EPSILON
+    @over_point = calc_over_point
+  end
+
+  def calc_over_point
+    point + @normal_v * CTuple::EPSILON
   end
 end

@@ -26,6 +26,8 @@ class Intersection
       comps.inside = false
     end
 
+    comps.over_point = comps.calc_over_point
+
     comps
   end
 end
