@@ -50,7 +50,7 @@ world.light = Lights::Point.new(Point.new(-10, 10, -10), Color.new(1, 1, 1))
   world.objects << object
 end
 
-camera = Camera.new(100, 50, Math::PI/3)
+camera = Camera.new(640, 480, Math::PI/3)
 camera.transform = Transform.view_transform(Point.new(0, 1.5, -5),
                                              Point.new(0, 1, 0),
                                              Vector.new(0, 1, 0))
