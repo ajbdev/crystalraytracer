@@ -1,8 +1,6 @@
 class Plane < Shape
   def intersect(ray : Ray)
-    if ray.direction.y.abs < CTuple::EPSILON
-      return Intersections.new
-    end
+    return Intersections.new if ray.direction.y.abs < CTuple::EPSILON
 
     t = -ray.origin.y / ray.direction.y
 

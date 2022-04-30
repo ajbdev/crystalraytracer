@@ -79,8 +79,7 @@ describe Material do
       eye_v = Vector.new(0, 0, -1)
       normal_v = Vector.new(0, 0, -1)
       light = Lights::Point.new(Point.new(0,0,-10),Color.new(1,1,1))
-      in_shadow = true
-      result = m.lighting(light, position, eye_v, normal_v, in_shadow)
+      result = m.lighting(light, position, eye_v, normal_v, true)
       result.should eq Color.new(0.1,0.1,0.1)
     end
   end

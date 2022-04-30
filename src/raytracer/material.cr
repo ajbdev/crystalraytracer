@@ -4,6 +4,7 @@ class Material
   property specular : Float64
   property shininess : Float64
   property color : Color
+  property pattern : StripePattern?
   
   def initialize(ambient = 0.1, diffuse = 0.9, specular = 0.9, shininess = 200.0, color = Color.white)
     @ambient = ambient
@@ -13,8 +14,14 @@ class Material
     @color = color
   end
 
+  def color_at(point : CTuple)
+    return @color unless (pattern = @pattern)
+      
+    pattern.stripe_at(point)
+  end
+
   def lighting(light : Lights::Point, point : CTuple, eye_v : CTuple, normal_v : CTuple, in_shadow : Bool = false)
-    effective_color = @color * light.intensity
+    effective_color = color_at(point) * light.intensity
     light_v = (light.position - point).normalize
 
     ambient = effective_color * @ambient
