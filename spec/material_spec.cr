@@ -84,4 +84,23 @@ describe Material do
       result.should eq Color.new(0.1,0.1,0.1)
     end
   end
+
+  describe "patterns" do
+    it "displays a striped pattern" do
+      m, position = before_each_it.call
+
+      m.pattern = StripePattern.new(Color.new(1,1,1),Color.new(0,0,0))
+      m.ambient = 1
+      m.diffuse = 0
+      m.specular = 0
+      eye_v = Vector.new(0,0,-1)
+      normal_v = Vector.new(0,0,-1)
+      light = Lights::Point.new(Point.new(0,0,-10),Color.new(1,1,1))
+      c1 = m.lighting(light, Point.new(0.9,0,0), eye_v, normal_v, false)
+      c2 = m.lighting(light, Point.new(1.1,0,0), eye_v, normal_v, false)
+
+      c1.should eq Color.new(1,1,1)
+      c2.should eq Color.new(0,0,0)
+    end
+  end
 end
