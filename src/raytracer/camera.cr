@@ -43,18 +43,27 @@ class Camera
     Ray.new(origin, direction)
   end
 
-  def render(world : World)
+  def render(world : World, block : (Int32, Int32, Int32, Color -> Void)? = nil)
     img = Canvas.new(@h_size, @v_size)
 
+    pixels_rendered = 0
     0..@v_size.to_i.times do |y|
       0..@h_size.to_i.times do |x|
         ray = ray_for_pixel(x, y)
         color = world.color_at(ray)
         img.pixel(x, y, color)
+
+        pixels_rendered += 1
+
+        block.call(pixels_rendered, x, y, color) if block
       end
     end
 
     img
+  end
+
+  def render(world : World, &block : (Int32, Int32, Int32, Color) -> Void)
+    render(world, block)
   end
 
   def half_view

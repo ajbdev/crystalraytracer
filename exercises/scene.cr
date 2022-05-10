@@ -55,7 +55,12 @@ camera.transform = Transform.view_transform(Point.new(0, 1.5, -5),
                                              Point.new(0, 1, 0),
                                              Vector.new(0, 1, 0))
 
-canvas = camera.render(world)
+total_pixels = camera.v_size * camera.h_size
+canvas = camera.render(world) do |pixels_rendered, x, y, color|
+  str = "Rendered #{pixels_rendered}/#{total_pixels} pixels"
+  print str
+  str.size.times { print '\b' }
+end
 
 ppm_file = File.tempfile("crystalraytracer.ppm")
 
