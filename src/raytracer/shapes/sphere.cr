@@ -2,6 +2,8 @@
 class Sphere < Shape
   def intersect(ray : Ray)
     ray = ray.transform(transform.inverse)
+
+    
     sphere_to_ray = ray.origin - Point.new(0,0,0)
     a = ray.direction.dot(ray.direction)
     b = 2 * ray.direction.dot(sphere_to_ray)

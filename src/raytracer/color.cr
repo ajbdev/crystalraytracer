@@ -1,4 +1,9 @@
 class Color < CTuple
+
+  def initialize(tuple : Tuple)
+    @tuple = tuple
+  end
+
   def initialize(r : Float64, g : Float64, b : Float64, a : Float64 = 1.0)
     @tuple = {r,g,b,a}
   end

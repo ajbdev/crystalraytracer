@@ -1,7 +1,4 @@
-class StripePattern < Pattern
-  property a : Color
-  property b : Color
-  property transform : Matrix
+class GradientPattern < Pattern
 
   def initialize(a : Color, b : Color, transform = Matrix.new(Matrix.identity))
     @a = a
@@ -10,7 +7,9 @@ class StripePattern < Pattern
   end
 
   def pattern_at(p : CTuple) : Color
-    p.x.floor % 2 == 0 ? @a : @b
-  end
+    distance = @b - @a
+    fraction = p.x - p.x.floor
 
+    (@a + distance * fraction).as_color
+  end
 end

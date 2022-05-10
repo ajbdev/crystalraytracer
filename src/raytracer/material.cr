@@ -17,7 +17,7 @@ class Material
   def color_at(point : CTuple)
     return @color unless (pattern = @pattern)
       
-    pattern.stripe_at(point)
+    pattern.pattern_at(point)
   end
 
   def lighting(light : Lights::Point, point : CTuple, eye_v : CTuple, normal_v : CTuple, in_shadow : Bool = false)

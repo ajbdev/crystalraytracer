@@ -145,4 +145,8 @@ class CTuple
   def as_vector()
     Vector.new(@tuple[0],@tuple[1],@tuple[2])
   end
+
+  def as_color()
+    Color.new(@tuple[0],@tuple[1],@tuple[2])
+  end
 end

@@ -1,8 +1,4 @@
-class StripePattern < Pattern
-  property a : Color
-  property b : Color
-  property transform : Matrix
-
+class CheckerPattern < Pattern
   def initialize(a : Color, b : Color, transform = Matrix.new(Matrix.identity))
     @a = a
     @b = b
@@ -10,7 +6,6 @@ class StripePattern < Pattern
   end
 
   def pattern_at(p : CTuple) : Color
-    p.x.floor % 2 == 0 ? @a : @b
+    (p.x.floor + p.y.floor + p.z.floor) % 2 == 0 ? @a : @b
   end
-
 end
