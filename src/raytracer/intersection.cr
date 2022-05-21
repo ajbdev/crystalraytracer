@@ -19,6 +19,8 @@ class Intersection
       normal_v: @object.normal_at(point)
     )
 
+    comps.reflect_v = r.direction.reflect(comps.normal_v)
+
     if comps.normal_v.dot(comps.eye_v) < 0
       comps.inside = true
       comps.normal_v = -comps.normal_v

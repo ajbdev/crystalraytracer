@@ -96,6 +96,15 @@ describe Intersections do
       c = w.shade_hit(comps)
       c.should eq Color.new(0.9049844720832566, 0.9049844720832566, 0.9049844720832566)
     end
+
+    it "precomputes the reflection vector" do
+      shape = Plane.new
+      r = Ray.new(Point.new(0,1,-1), Vector.new(0,-Math.sqrt(2)/2,Math.sqrt(2)/2))
+      i = Intersection.new(Math.sqrt(2), shape)
+
+      comps = i.precompute(r)
+      comps.reflect_v.should eq Vector.new(0,Math.sqrt(2)/2,Math.sqrt(2)/2)
+    end
   end
 
 

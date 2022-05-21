@@ -7,6 +7,7 @@ describe Material do
       m.diffuse.should eq 0.9
       m.specular.should eq 0.9
       m.shininess.should eq 200.0
+      m.reflective.should eq 0.0
     end
   end
 

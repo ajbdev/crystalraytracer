@@ -6,6 +6,7 @@ struct Computations
   property normal_v : CTuple
   property inside : Bool?
   property over_point : CTuple
+  property reflect_v : CTuple?
 
   def initialize(t : Float64, object : Shape, point : CTuple, eye_v : CTuple, normal_v : CTuple)
     @t = t

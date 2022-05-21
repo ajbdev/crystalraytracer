@@ -41,6 +41,10 @@ class World
     xs.hit? && xs.hit.t < distance
   end
 
+  def reflected_color(comps : Computations)
+    return Color.black if comps.object.material.reflective == 0
+  end
+
   def self.default
     w = World.new
     w.objects = [

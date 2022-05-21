@@ -4,14 +4,16 @@ class Material
   property specular : Float64
   property shininess : Float64
   property color : Color
-  property pattern : StripePattern?
+  property reflective : Float64
+  property pattern : Pattern?
   
-  def initialize(ambient = 0.1, diffuse = 0.9, specular = 0.9, shininess = 200.0, color = Color.white)
+  def initialize(ambient = 0.1, diffuse = 0.9, specular = 0.9, shininess = 200.0, color = Color.white, reflective = 0.0)
     @ambient = ambient
     @diffuse = diffuse
     @specular = specular
     @shininess = shininess
     @color = color
+    @reflective = reflective
   end
 
   def color_at(point : CTuple)

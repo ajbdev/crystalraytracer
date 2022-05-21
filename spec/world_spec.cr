@@ -109,4 +109,18 @@ describe World do
       c.should eq Color.new(0.1,0.1,0.1)
     end
   end
+  describe "#reflected_color" do
+    it "the reflected color for a nonreflective material" do
+      w = World.default
+      r = Ray.new(Point.new(0,0,0), Vector.new(0,0,1))
+
+      shape = w.objects[1]
+      shape.material.ambient = 1.0
+
+      i = Intersection.new(1, shape)
+      comps = i.precompute(r)
+
+      w.reflected_color(comps).should eq Color.new(0,0,0)
+    end
+  end
 end
