@@ -16,14 +16,14 @@ class Material
     @reflective = reflective
   end
 
-  def color_at(point : CTuple)
+  def color_at(point : CTuple, object : Shape)
     return @color unless (pattern = @pattern)
       
-    pattern.pattern_at(point)
+    pattern.pattern_at_object(object, point)
   end
 
-  def lighting(light : Lights::Point, point : CTuple, eye_v : CTuple, normal_v : CTuple, in_shadow : Bool = false)
-    effective_color = color_at(point) * light.intensity
+  def lighting(light : Lights::Point, object : Shape, point : CTuple, eye_v : CTuple, normal_v : CTuple, in_shadow : Bool = false)
+    effective_color = color_at(point, object) * light.intensity
     light_v = (light.position - point).normalize
 
     ambient = effective_color * @ambient

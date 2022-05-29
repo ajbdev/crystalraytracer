@@ -7,7 +7,7 @@ abstract class Pattern
 
   abstract def pattern_at(p : CTuple) : Color
 
-  def pattern_at_object(obj : Shape, world_point : Point) : Color
+  def pattern_at_object(obj : Shape, world_point : CTuple) : Color
     obj_point = obj.transform.inverse * world_point
     pattern_point = @transform.inverse * obj_point
 

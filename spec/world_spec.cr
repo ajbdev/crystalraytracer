@@ -1,3 +1,5 @@
+require "./spec_helper.cr"
+
 describe World do
   describe "#new" do
     it "creates a new world with no objects or lights" do
@@ -5,7 +7,7 @@ describe World do
       w.objects.size.should eq 0
       w.light.should be_nil
     end
-    pending "has a default world with objects and lights" do
+    it "has a default world with objects and lights" do
       light = Lights::Point.new(Point.new(-10, 10, -10), Color.new(1, 1, 1))
       s1 = Sphere.new
       s1.material.color = Color.new(0.8, 1.0, 0.6)
@@ -23,7 +25,7 @@ describe World do
 
       w.objects.size.should eq 2
       # Need to fix, class comparisons are not value comparisons
-      # Possible refactor: change objects/shapes/ctuples into structs 
+      # Possible refactor: change objects/shapes/ctuples into structs
       # w.objects.should contain(s1)
       # w.objects.should contain(s2)
     end
@@ -63,6 +65,23 @@ describe World do
       r = Ray.new(Point.new(0,0,0.75), Vector.new(0,0,-1))
       c = w.color_at(r)
       c.should eq inner.material.color
+    end
+    it "with mutually reflective surfaces" do
+      w = World.new
+      w.light = Lights::Point.new(Point.new(0,0,0),Color.new(1,1,1))
+      lower = Plane.new
+      lower.material.reflective = 1
+      lower.transform = Transform.translate(0,1,0)
+      w.objects << lower
+
+      upper = Plane.new
+      upper.material.reflective = 1
+      upper.transform = Transform.translate(0,1,0)
+      w.objects << upper
+
+      r = Ray.new(Point.new(0,0,0), Vector.new(0,1,0))
+
+      w.color_at(r).should eq Color.black
     end
   end
   describe "#is_shadowed" do
@@ -108,6 +127,21 @@ describe World do
       c = w.shade_hit(comps)
       c.should eq Color.new(0.1,0.1,0.1)
     end
+    it "with a reflective material" do
+      w = World.default
+      shape = Plane.new
+      shape.material.reflective = 0.5
+      shape.transform = Transform.translate(0,-1,0)
+
+      w.objects << shape
+
+      r = Ray.new(Point.new(0,0,-3),Vector.new(0,-Math.sqrt(2)/2, Math.sqrt(2)/2))
+      i = Intersection.new(Math.sqrt(2), shape)
+
+      comps = i.precompute(r)
+
+      w.shade_hit(comps).should eq Color.new(0.87677, 0.92436, 0.82918)
+    end
   end
   describe "#reflected_color" do
     it "the reflected color for a nonreflective material" do
@@ -121,6 +155,22 @@ describe World do
       comps = i.precompute(r)
 
       w.reflected_color(comps).should eq Color.new(0,0,0)
+    end
+    it "the reflected color for a reflective material" do
+      w = World.default
+
+      shape = Plane.new
+      shape.material.reflective = 0.5
+      shape.transform = Transform.translate(0,-1,0)
+
+      w.objects << shape
+
+      r = Ray.new(Point.new(0,0,-3),Vector.new(0,-Math.sqrt(2)/2, Math.sqrt(2)/2))
+      i = Intersection.new(Math.sqrt(2), shape)
+
+      comps = i.precompute(r)
+
+      w.reflected_color(comps).should eq Color.new(0.19032, 0.2379, 0.14274)
     end
   end
 end

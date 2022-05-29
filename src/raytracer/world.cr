@@ -18,7 +18,9 @@ class World
 
     shadowed = is_shadowed(comps.over_point)
     
-    comps.object.material.lighting(light, comps.point, comps.eye_v, comps.normal_v, shadowed)
+    surface_color = comps.object.material.lighting(light, comps.object, comps.over_point, comps.eye_v, comps.normal_v, shadowed)
+
+    (surface_color + reflected_color(comps)).as_color
   end
 
   def color_at(ray : Ray)
@@ -43,6 +45,11 @@ class World
 
   def reflected_color(comps : Computations)
     return Color.black if comps.object.material.reflective == 0
+    return Color.black unless (reflect_v = comps.reflect_v)
+
+    reflect_ray = Ray.new(comps.over_point, reflect_v)
+
+    (color_at(reflect_ray) * comps.object.material.reflective).as_color
   end
 
   def self.default
