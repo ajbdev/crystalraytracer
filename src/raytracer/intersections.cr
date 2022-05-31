@@ -21,19 +21,31 @@ class Intersections
   end
 
   def hit?
-    !!sorted_by_distance.first?
+    !!sort_by_distance!.visible.first?
   end
 
   def hit
-    sorted_by_distance.first
+    sort_by_distance!.visible.first
   end
 
   def sorted_by_distance
-    @intersections.select { |i| i.t > 0 }.sort { |a,b| a.t <=> b.t }
+    @intersections.sort { |a,b| a.t <=> b.t }
   end
 
   def sort_by_distance!
     @intersections = sorted_by_distance
+
+    self
+  end
+
+  def visible
+    @intersections.select { |i| i.t > 0 }
+  end
+
+  def visible!
+    @intersections = visible
+
+    self
   end
 
   def each(&block : Intersection -> _)

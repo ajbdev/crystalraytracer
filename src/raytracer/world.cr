@@ -48,8 +48,9 @@ class World
     return Color.black unless (reflect_v = comps.reflect_v)
 
     reflect_ray = Ray.new(comps.over_point, reflect_v)
+    color = color_at(reflect_ray)
 
-    (color_at(reflect_ray) * comps.object.material.reflective).as_color
+    (color * comps.object.material.reflective).as_color
   end
 
   def self.default
