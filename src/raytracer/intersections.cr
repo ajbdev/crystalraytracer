@@ -1,6 +1,11 @@
 class Intersections
   include Indexable(Intersection)
 
+  enum Boundary
+    All
+    Visible
+  end
+
   def initialize(intersections : Array(Intersection) = [] of Intersection)
     @intersections = intersections
   end
@@ -20,32 +25,22 @@ class Intersections
     @intersections
   end
 
-  def hit?
-    !!sort_by_distance!.visible.first?
+  def hit?(intersect_with : Boundary = Boundary::Visible)
+    !hit(intersect_with).nil?
   end
 
-  def hit
-    sort_by_distance!.visible.first
+  def hit(intersect_with : Boundary = Boundary::Visible)
+    return sorted_by_distance.visible.fetch(0,nil) if intersect_with == Boundary::Visible
+
+    sorted_by_distance.fetch(0,nil)
   end
 
   def sorted_by_distance
-    @intersections.sort { |a,b| a.t <=> b.t }
-  end
-
-  def sort_by_distance!
-    @intersections = sorted_by_distance
-
-    self
+    Intersections.new(@intersections.sort { |a,b| a.t <=> b.t })
   end
 
   def visible
-    @intersections.select { |i| i.t > 0 }
-  end
-
-  def visible!
-    @intersections = visible
-
-    self
+    Intersections.new(@intersections.select { |i| i.t > 0 })
   end
 
   def each(&block : Intersection -> _)

@@ -7,8 +7,7 @@ class World
   end
   
   def intersect(ray : Ray)
-    xs = Intersections.new(@objects.flat_map { |obj| obj.intersect(ray).items })
-    xs.sort_by_distance!
+    xs = Intersections.new(@objects.flat_map { |obj| obj.intersect(ray).items }).sorted_by_distance
 
     xs
   end
@@ -26,9 +25,9 @@ class World
   def color_at(ray : Ray)
     xs = intersect(ray)
 
-    return Color.black unless xs.hit?
+    return Color.black unless (hit = xs.hit(Intersections::Boundary::All))
 
-    shade_hit(xs.hit.precompute(ray))
+    shade_hit(hit.precompute(ray))
   end
 
   def is_shadowed(point : CTuple)
@@ -39,8 +38,10 @@ class World
     direction = v.normalize
     r = Ray.new(point, direction)
     xs = intersect(r)
+    
+    return false unless (hit = xs.hit)
 
-    xs.hit? && xs.hit.t < distance
+    hit.t < distance
   end
 
   def reflected_color(comps : Computations)
