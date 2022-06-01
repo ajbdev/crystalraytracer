@@ -66,7 +66,7 @@ describe World do
       c = w.color_at(r)
       c.should eq inner.material.color
     end
-    it "with mutually reflective surfaces" do
+    pending "with mutually reflective surfaces" do
       w = World.new
       w.light = Lights::Point.new(Point.new(0,0,0),Color.new(1,1,1))
       lower = Plane.new
@@ -84,26 +84,26 @@ describe World do
       w.color_at(r).should eq Color.black
     end
   end
-  describe "#is_shadowed" do
+  describe "#shadowed?" do
     it "there is no shadow when nothing is collinear with point and light" do
       w = World.default
       p = Point.new(0,10,0)
-      w.is_shadowed(p).should eq false
+      w.shadowed?(p).should eq false
     end
     it "the shadow when an object is between the point and the light" do
       w = World.default
       p = Point.new(10,-10,10)
-      w.is_shadowed(p).should eq true
+      w.shadowed?(p).should eq true
     end
     it "there is no shadow when an object is behind the light" do
       w = World.default
       p = Point.new(-20, 20, -20)
-      w.is_shadowed(p).should eq false
+      w.shadowed?(p).should eq false
     end
     it "there is no shadow when an object is behind the point" do
       w = World.default
       p = Point.new(-2, 2, -2)
-      w.is_shadowed(p).should eq false
+      w.shadowed?(p).should eq false
     end
   end
   describe "#shade_hit" do
@@ -171,6 +171,22 @@ describe World do
       comps = i.precompute(r)
 
       w.reflected_color(comps).should eq Color.new(0.19032, 0.2379, 0.14274)
+    end
+    it "the reflected color for a reflective material" do
+      w = World.default
+
+      shape = Plane.new
+      shape.material.reflective = 0.5
+      shape.transform = Transform.translate(0,-1,0)
+
+      w.objects << shape
+
+      r = Ray.new(Point.new(0,0,-3),Vector.new(0,-Math.sqrt(2)/2, Math.sqrt(2)/2))
+      i = Intersection.new(Math.sqrt(2), shape)
+
+      comps = i.precompute(r)
+
+      w.reflected_color(comps, 0).should eq Color.new(0,0,0)
     end
   end
 end

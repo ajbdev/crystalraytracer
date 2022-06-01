@@ -2,35 +2,48 @@ class World
   property objects : Array(Shape)
   property light : Lights::Point?
 
+  MAX_RECURSION_DEPTH = 5
+
   def initialize
     @objects = [] of Shape
   end
   
   def intersect(ray : Ray)
-    xs = Intersections.new(@objects.flat_map { |obj| obj.intersect(ray).items }).sorted_by_distance
+    xs = Intersections.new(@objects.flat_map(&.intersect(ray).items)).sorted_by_distance
 
     xs
   end
 
-  def shade_hit(comps : Computations)
+  def shade_hit(comps : Computations, remaining : Int32 = MAX_RECURSION_DEPTH)
     return Color.black unless (light = @light)
 
-    shadowed = is_shadowed(comps.over_point)
+    shadowed = shadowed?(comps.over_point)
     
     surface_color = comps.object.material.lighting(light, comps.object, comps.over_point, comps.eye_v, comps.normal_v, shadowed)
 
-    (surface_color + reflected_color(comps)).as_color
+    (surface_color + reflected_color(comps, remaining)).as_color
   end
 
-  def color_at(ray : Ray)
+  def color_at(ray : Ray, remaining : Int32 = MAX_RECURSION_DEPTH)
     xs = intersect(ray)
 
-    return Color.black unless (hit = xs.hit(Intersections::Boundary::All))
+    return Color.black unless (hit = xs.hit)
 
-    shade_hit(hit.precompute(ray))
+    shade_hit(hit.precompute(ray), remaining)
   end
 
-  def is_shadowed(point : CTuple)
+  def reflected_color(comps : Computations, remaining : Int32 = MAX_RECURSION_DEPTH)
+    return Color.black if comps.object.material.reflective == 0
+    return Color.black unless remaining > 0
+    return Color.black unless (reflect_v = comps.reflect_v)
+
+    reflect_ray = Ray.new(comps.over_point, reflect_v)
+    color = color_at(reflect_ray, remaining - 1)
+
+    (color * comps.object.material.reflective).as_color
+  end
+
+  def shadowed?(point : CTuple)
     return true unless (light = @light)
 
     v = light.position - point
@@ -42,16 +55,6 @@ class World
     return false unless (hit = xs.hit)
 
     hit.t < distance
-  end
-
-  def reflected_color(comps : Computations)
-    return Color.black if comps.object.material.reflective == 0
-    return Color.black unless (reflect_v = comps.reflect_v)
-
-    reflect_ray = Ray.new(comps.over_point, reflect_v)
-    color = color_at(reflect_ray)
-
-    (color * comps.object.material.reflective).as_color
   end
 
   def self.default
