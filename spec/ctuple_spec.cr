@@ -15,6 +15,14 @@ describe CTuple do
       vector.w.should eq 0.0
       vector.vector?.should eq true
     end
+    it "initializes a vector as its own class" do
+      vector = Vector.new(1.0,1.0,1.0)
+      vector.vector?.should eq true
+    end
+    it "initializes a point as its own class" do
+      point = Point.new(1.0,1.0,1.0)
+      point.point?.should eq true
+    end
   end
 
   describe "#math" do
@@ -103,6 +111,24 @@ describe CTuple do
       b = CTuple.new_vector(2, 3, 4)
       a.cross(b).val.should eq({-1.0,2.0,-1.0,0.0})
       b.cross(a).val.should eq({1.0,-2.0,1.0,0.0})
+    end
+  end
+
+  describe "#reflect" do
+    it "reflects a vector approaching 45°" do
+      v = Vector.new(1, -1, 0)
+      n = Vector.new(0, 1, 0)
+      r = v.reflect(n)
+
+      r.should eq Vector.new(1, 1, 0)
+    end
+
+    it "reflects a vector off a slanted surface" do
+      v = Vector.new(0, -1, 0)
+      n = Vector.new(Math.sqrt(2)/2, Math.sqrt(2)/2, 0)
+      r = v.reflect(n)
+
+      r.should eq Vector.new(1, 0, 0)
     end
   end
   
