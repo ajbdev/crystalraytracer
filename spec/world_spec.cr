@@ -66,7 +66,7 @@ describe World do
       c = w.color_at(r)
       c.should eq inner.material.color
     end
-    pending "with mutually reflective surfaces" do
+    it "with mutually reflective surfaces" do
       w = World.new
       w.light = Lights::Point.new(Point.new(0,0,0),Color.new(1,1,1))
       lower = Plane.new

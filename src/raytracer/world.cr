@@ -77,7 +77,8 @@ class World
         transform: Transform.scale(0.5,0.5,0.5)
       )
     ] of Shape
-    w.light = Lights::Point.new(Point.new(-10, 10, -10), Color.white).not_nil!
+    
+    w.light = Lights::Point.new(Point.new(-10, 10, -10), Color.white)
     
     w
   end
