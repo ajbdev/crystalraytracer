@@ -4,6 +4,14 @@ class Intersections
   enum Boundary
     All
     Visible
+
+    def visible?
+      self == Visible
+    end
+
+    def all?
+      self == All
+    end
   end
 
   def initialize(intersections : Array(Intersection) = [] of Intersection)
@@ -30,7 +38,7 @@ class Intersections
   end
 
   def hit(intersect_with : Boundary = Boundary::Visible)
-    return sorted_by_distance.visible.fetch(0,nil) if intersect_with == Boundary::Visible
+    return sorted_by_distance.visible.fetch(0,nil) if intersect_with.visible?
 
     sorted_by_distance.fetch(0,nil)
   end
