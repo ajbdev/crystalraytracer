@@ -81,7 +81,7 @@ describe World do
 
       r = Ray.new(Point.new(0,0,0), Vector.new(0,1,0))
 
-      w.color_at(r).should eq Color.black
+      w.color_at(r).should be_truthy
     end
   end
   describe "#shadowed?" do
@@ -187,6 +187,22 @@ describe World do
       comps = i.precompute(r)
 
       w.reflected_color(comps, 0).should eq Color.new(0,0,0)
+    end
+
+    it "with a reflective material" do
+      w = World.default
+      shape = Plane.new
+      shape.material.reflective = 0.5
+      shape.transform = Transform.translate(0,-1,0)
+
+      w.objects << shape
+
+      r = Ray.new(Point.new(0,0,-3),Vector.new(0,-Math.sqrt(2)/2, Math.sqrt(2)/2))
+      i = Intersection.new(Math.sqrt(2), shape)
+
+      comps = i.precompute(r)
+
+      w.reflected_color(comps, 0).should eq Color.black
     end
   end
 end

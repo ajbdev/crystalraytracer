@@ -9,7 +9,8 @@ class World
   end
   
   def intersect(ray : Ray)
-    xs = Intersections.new(@objects.flat_map(&.intersect(ray).items)).sorted_by_distance
+    xs = Intersections.new(@objects.flat_map(&.intersect(ray).items))
+                      .sorted_by_distance
 
     xs
   end
@@ -19,7 +20,12 @@ class World
 
     shadowed = shadowed?(comps.over_point)
     
-    surface_color = comps.object.material.lighting(light, comps.object, comps.over_point, comps.eye_v, comps.normal_v, shadowed)
+    surface_color = comps.object.material.lighting(light,
+                                                   comps.object,
+                                                   comps.over_point,
+                                                   comps.eye_v,
+                                                   comps.normal_v,
+                                                   shadowed)
 
     (surface_color + reflected_color(comps, remaining)).as_color
   end
@@ -27,7 +33,7 @@ class World
   def color_at(ray : Ray, remaining : Int32 = MAX_RECURSION_DEPTH)
     xs = intersect(ray)
 
-    return Color.black unless (hit = xs.hit)
+    return Color.black unless (hit = xs.hit())
 
     shade_hit(hit.precompute(ray), remaining)
   end
