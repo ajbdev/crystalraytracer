@@ -1,12 +1,10 @@
 require "../src/raytracer.cr"
 
-
 floor = Sphere.new
 floor.transform = Transform.scale(10, 0.01, 10)
 floor.material = Material.new
 floor.material.color = Color.new(1, 0.9, 0.9)
 floor.material.specular = 0
-floor.material.pattern = StripePattern.new(Color.new(0,0.7,0), Color.black)
 
 left_wall = Sphere.new
 left_wall.transform = Transform.translate(0,0,5)
@@ -29,7 +27,7 @@ middle.material = Material.new
 middle.material.color = Color.new(0.1, 1, 0.5)
 middle.material.diffuse = 0.7
 middle.material.specular = 0.3
-middle.material.pattern = GradientPattern.new(Color.new(0.1,1,0.5), Color.new(0,0,0.7))
+middle.material.reflective = 0.8
 
 right = Sphere.new
 right.transform = Transform.translate(1.5, 0.5, -0.5).scale(0.5, 0.5, 0.5)
@@ -37,6 +35,7 @@ right.material = Material.new
 right.material.color = Color.new(0.5, 1, 0.1)
 right.material.diffuse = 0.7
 right.material.specular = 0.3
+right.material.reflective = 0.2
 
 left = Sphere.new
 left.transform = Transform.translate(-1.5, 0.33, -0.75).scale(0.33, 0.33, 0.33)
@@ -52,17 +51,13 @@ world.light = Lights::Point.new(Point.new(-10, 10, -10), Color.new(1, 1, 1))
   world.objects << object
 end
 
-camera = Camera.new(140, 80, Math::PI/3)
+camera = Camera.new(640, 480, Math::PI/3)
 camera.transform = Transform.view_transform(Point.new(0, 1.5, -5),
                                              Point.new(0, 1, 0),
                                              Vector.new(0, 1, 0))
 
 total_pixels = camera.v_size * camera.h_size
-canvas = camera.render(world) do |pixels_rendered, x, y, color|
-  str = "Rendered #{pixels_rendered}/#{total_pixels} pixels"
-  print str
-  str.size.times { print '\b' }
-end
+canvas = camera.render(world)
 
 ppm_file = File.tempfile("crystalraytracer.ppm")
 
