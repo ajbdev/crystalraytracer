@@ -172,22 +172,6 @@ describe World do
 
       w.reflected_color(comps).should eq Color.new(0.19032, 0.2379, 0.14274)
     end
-    it "the reflected color for a reflective material" do
-      w = World.default
-
-      shape = Plane.new
-      shape.material.reflective = 0.5
-      shape.transform = Transform.translate(0,-1,0)
-
-      w.objects << shape
-
-      r = Ray.new(Point.new(0,0,-3),Vector.new(0,-Math.sqrt(2)/2, Math.sqrt(2)/2))
-      i = Intersection.new(Math.sqrt(2), shape)
-
-      comps = i.precompute(r)
-
-      w.reflected_color(comps, 0).should eq Color.new(0,0,0)
-    end
 
     it "with a reflective material" do
       w = World.default
