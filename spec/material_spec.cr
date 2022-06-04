@@ -1,3 +1,5 @@
+require "./spec_helper.cr"
+
 describe Material do
   describe "#new" do
     it "has a default material" do
@@ -8,6 +10,8 @@ describe Material do
       m.specular.should eq 0.9
       m.shininess.should eq 200.0
       m.reflective.should eq 0.0
+      m.transparency.should eq 0.0
+      m.refractive_index.should eq 1.0
     end
   end
 

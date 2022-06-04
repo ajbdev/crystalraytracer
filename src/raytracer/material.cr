@@ -6,14 +6,18 @@ class Material
   property color : Color
   property reflective : Float64
   property pattern : Pattern?
+  property transparency : Float64
+  property refractive_index : Float64
   
-  def initialize(ambient = 0.1, diffuse = 0.9, specular = 0.9, shininess = 200.0, color = Color.white, reflective = 0.0)
+  def initialize(ambient = 0.1, diffuse = 0.9, specular = 0.9, shininess = 200.0, color = Color.white, reflective = 0.0, transparency = 0.0, refractive_index = 1.0)
     @ambient = ambient
     @diffuse = diffuse
     @specular = specular
     @shininess = shininess
     @color = color
     @reflective = reflective
+    @transparency = transparency
+    @refractive_index = refractive_index
   end
 
   def color_at(point : CTuple, object : Shape)
