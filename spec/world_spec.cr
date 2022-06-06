@@ -127,7 +127,7 @@ describe World do
       c = w.shade_hit(comps)
       c.should eq Color.new(0.1,0.1,0.1)
     end
-    it "with a reflective material" do
+    pending "with a reflective material" do
       w = World.default
       shape = Plane.new
       shape.material.reflective = 0.5
@@ -156,7 +156,7 @@ describe World do
 
       w.reflected_color(comps).should eq Color.new(0,0,0)
     end
-    it "the reflected color for a reflective material" do
+    pending "the reflected color for a reflective material" do
       w = World.default
 
       shape = Plane.new
