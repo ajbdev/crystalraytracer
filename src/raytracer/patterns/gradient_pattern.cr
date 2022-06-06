@@ -8,7 +8,10 @@ class GradientPattern < Pattern
 
   def pattern_at(p : CTuple) : Color
     distance = @b - @a
-    fraction = (p.x + 1.0) * 0.5
+
+    # Produces a more linear gradient, needs updated tests to implement:
+    # fraction = (p.x + 1.0) * 0.5
+    fraction = p.x - p.x.floor
 
     (@a + distance * fraction).as_color
   end
