@@ -149,6 +149,14 @@ describe Sphere do
       s.material.should eq m
     end
   end
+  describe "#glass" do
+    it "helper for producing a sphere with glass material" do
+      s = Sphere.glass
+      s.transform.should eq Matrix.identity
+      s.material.transparency.should eq 1.0
+      s.material.refractive_index.should eq 1.5
+    end
+  end
 
   
 end

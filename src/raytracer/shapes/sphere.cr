@@ -28,4 +28,12 @@ class Sphere < Shape
 
     world_normal.normalize
   end
+
+  def self.glass
+    glassy_sphere = new
+    glassy_sphere.material.transparency = 1.0
+    glassy_sphere.material.refractive_index = 1.5
+
+    glassy_sphere
+  end
 end
