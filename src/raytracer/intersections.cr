@@ -18,9 +18,15 @@ class Intersections
     @intersections = intersections
   end
 
-  def initialize(*intersections)
-    @intersections = intersections.to_a
+  def initialize(tvals : Array(Tuple(Float64, Shape)))
+    @intersections = tvals.map do |val|
+      Intersection.new(val[0], val[1])
+    end
   end
+
+  # def initialize(*intersections)
+  #   @intersections = intersections.to_a
+  # end
 
   def initialize(*ts, object : Shape)
     @intersections = [] of Intersection

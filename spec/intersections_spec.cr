@@ -17,7 +17,7 @@ describe Intersections do
       s = Sphere.new
       i1 = Intersection.new(1, s)
       i2 = Intersection.new(2, s)
-      xs = Intersections.new(i1, i2)
+      xs = Intersections.new([i1, i2])
 
       xs.hit.should eq i1
     end
@@ -25,7 +25,7 @@ describe Intersections do
       s = Sphere.new
       i1 = Intersection.new(-1, s)
       i2 = Intersection.new(2, s)
-      xs = Intersections.new(i1, i2)
+      xs = Intersections.new([i1, i2])
 
       xs.hit.should eq i2
     end
@@ -36,7 +36,7 @@ describe Intersections do
       i3 = Intersection.new(-3, s)
       i4 = Intersection.new(2, s)
 
-      xs = Intersections.new(i1, i2, i3, i4)
+      xs = Intersections.new([i1, i2, i3, i4])
 
       xs.hit.should eq i4
     end
@@ -104,6 +104,47 @@ describe Intersections do
 
       comps = i.precompute(r)
       comps.reflect_v.should eq Vector.new(0,Math.sqrt(2)/2,Math.sqrt(2)/2)
+    end
+
+    it "finds n1 (under) and n2 (over) at intersections in overlapping spheres" do
+      refractive_indices = [
+        [1.0,1.5],
+        [1.5,2.0],
+        [2.0,2.5],
+        [2.5,2.5],
+        [2.5,1.5],
+        [1.5,1.0]
+      ]
+
+      a = Sphere.glass
+      a.transform = Transform.scale(2,2,2)
+      a.material.refractive_index = 1.5
+
+      b = Sphere.glass
+      b.transform = Transform.translate(0,0,-0.25)
+      b.material.refractive_index = 2.0
+
+      c = Sphere.glass
+      c.transform = Transform.translate(0,0,0.25)
+      c.material.refractive_index = 2.5
+
+      r = Ray.new(Point.new(0,0,-4),Vector.new(0,0,1))
+      
+      # intersections(2:A, 2.75:B, 3.25:C, 4.75:B, 5.25:C, 6:A)
+      xs = Intersections.new([
+        {2.0, a},
+        {2.75, b},
+        {3.25, c},
+        {4.75, b},
+        {5.25, c},
+        {6.0, a}
+      ])
+
+      refractive_indices.each_with_index do |n, ix|
+        comps = xs[ix].precompute(r, xs)
+        comps.n1.should eq n[0]
+        comps.n2.should eq n[1]
+      end
     end
   end
 
