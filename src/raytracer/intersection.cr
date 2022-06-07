@@ -8,38 +8,54 @@ class Intersection
     @object = obj
   end
 
-  # containers ← empty list
-  # for i ← each intersection in xs 
-  #   if i = hit then
-  #     if containers is empty 
-  #       comps.n1 ← 1.0
-  #     else
-  #       comps.n1 ← last(containers).material.refractive_index 
-  #     end if
-  #   end if
-  #   if containers includes i.object then 
-  #     remove i.object from containers
-  #   else
-  #     append i.object onto containers
-  #   end if
-  #   if i = hit then
-  #     if containers is empty
-  #       comps.n2 ← 1.0 else
-  #       comps.n2 ← last(containers).material.refractive_index 
-  #     end if
-  #         terminate loop
-  #   end if 
-  # end for
-  def compute_n(r : Ray, intersections : Intersections)
+  # if (intersections) {
+  #     const objects = new Set
+
+  #     for (const intersection of intersections) {
+  #       const { object } = intersection
+
+  #       if (intersection === this) {
+  #         this.n1 = objects.size ? last(objects).material.refractive : 1.0
+  #       }
+
+  #       objects.has(object) ? objects.delete(object) : objects.add(object)
+
+  #       if (intersection === this) {
+  #         this.n2 = objects.size ? last(objects).material.refractive : 1.0
+  #         break
+  #       }
+  #     }
+  #   }
+
+  def compute_n(comps : Computations, intersections : Intersections)
     objects = [] of Shape
 
-    intersections.each do |intersection|
-      obj = intersection.object
+    ix = 0
+    while (ix < intersections.size)
+      i = intersections[ix]
+
+      if i == self
+        comps.n1 = objects.empty? ? 1.0 : objects.last.material.refractive_index
+      end
+
+      if objects.includes?(i.object)
+        objects.delete(i.object)
+      else
+        objects << i.object
+      end
+
+      if i == self
+        comps.n2 = objects.empty? ? 1.0 : objects.last.material.refractive_index
+        break
+      end
+
+      ix += 1
     end
 
+    comps
   end
 
-  def precompute(r : Ray)
+  def precompute(r : Ray, intersections : Intersections = Intersections.new)
     point = r.position(@t)
 
     comps = Computations.new(
@@ -61,6 +77,6 @@ class Intersection
 
     comps.over_point = comps.calc_over_point
 
-    comps
+    compute_n(comps, intersections)
   end
 end
