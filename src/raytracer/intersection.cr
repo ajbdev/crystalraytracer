@@ -8,25 +8,6 @@ class Intersection
     @object = obj
   end
 
-  # if (intersections) {
-  #     const objects = new Set
-
-  #     for (const intersection of intersections) {
-  #       const { object } = intersection
-
-  #       if (intersection === this) {
-  #         this.n1 = objects.size ? last(objects).material.refractive : 1.0
-  #       }
-
-  #       objects.has(object) ? objects.delete(object) : objects.add(object)
-
-  #       if (intersection === this) {
-  #         this.n2 = objects.size ? last(objects).material.refractive : 1.0
-  #         break
-  #       }
-  #     }
-  #   }
-
   def compute_n(comps : Computations, intersections : Intersections)
     objects = [] of Shape
 
@@ -75,7 +56,8 @@ class Intersection
       comps.inside = false
     end
 
-    comps.over_point = comps.calc_over_point
+    comps.over_point = comps.point + comps.normal_v * CTuple::EPSILON
+    comps.under_point = comps.point - comps.normal_v * CTuple::EPSILON
 
     compute_n(comps, intersections)
   end

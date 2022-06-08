@@ -16,13 +16,13 @@ class World
   end
 
   def shade_hit(comps : Computations, remaining : Int32 = MAX_RECURSION_DEPTH)
-    return Color.black unless (light = @light)
+    return Color.black unless (light = @light) && (over_point = comps.over_point)
 
-    shadowed = shadowed?(comps.over_point)
+    shadowed = shadowed?(over_point)
     
     surface_color = comps.object.material.lighting(light,
                                                    comps.object,
-                                                   comps.over_point,
+                                                   over_point,
                                                    comps.eye_v,
                                                    comps.normal_v,
                                                    shadowed)
@@ -41,12 +41,29 @@ class World
   def reflected_color(comps : Computations, remaining : Int32 = MAX_RECURSION_DEPTH)
     return Color.black if comps.object.material.reflective == 0
     return Color.black unless remaining > 0
-    return Color.black unless (reflect_v = comps.reflect_v)
+    return Color.black unless (reflect_v = comps.reflect_v) && (over_point = comps.over_point)
 
-    reflect_ray = Ray.new(comps.over_point, reflect_v)
+    reflect_ray = Ray.new(over_point, reflect_v)
     color = color_at(reflect_ray, remaining - 1)
 
     (color * comps.object.material.reflective).as_color
+  end
+
+  def refracted_color(comps, remaining)
+    return Color.black if comps.object.material.transparency == 0 || remaining == 0
+    return Color.black unless (n1 = comps.n1) && (n2 = comps.n2)
+
+    n_ratio = n1 / n2
+
+    cos_i = comps.eye_v.dot(comps.normal_v)
+
+    sin2_t = n_ratio ** 2 * (1 - cos_i ** 2)
+
+    p! sin2_t
+
+    return Color.black if sin2_t > 1.0
+
+    Color.white
   end
 
   def shadowed?(point : CTuple)

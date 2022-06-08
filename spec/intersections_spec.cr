@@ -47,9 +47,19 @@ describe Intersections do
       i = Intersection.new(5, shape)
       comps = i.precompute(r)
 
-      comps.over_point.z.should be < -(CTuple::EPSILON/2)
-      comps.point.z.should be > comps.over_point.z
+      comps.over_point.not_nil!.z.should be < -(CTuple::EPSILON/2)
+      comps.point.z.should be > comps.over_point.not_nil!.z
+    end
+    it "the under point is offset below the surface" do
+      r = Ray.new(Point.new(0,0,-5), Vector.new(0,0,1))
+      shape = Sphere.new
+      shape.transform = Transform.translate(0,0,1)
+      i = Intersection.new(5, shape)
+      xs = Intersections.new([i])
+      comps = i.precompute(r, xs)
 
+      comps.under_point.not_nil!.z.should be > CTuple::EPSILON/2
+      comps.point.z.should be < comps.under_point.not_nil!.z
     end
   end
   describe "#precompute" do

@@ -189,4 +189,38 @@ describe World do
       w.reflected_color(comps, 0).should eq Color.black
     end
   end
+  describe "#refracted_color" do
+    it "with an opaque surface" do
+      w = World.default
+      shape = w.objects.first
+      r = Ray.new(Point.new(0,0,-5),Vector.new(0,0,1))
+      xs = Intersections.new([{4.0, shape},{6.0, shape}])
+      comps = xs[0].precompute(r, xs)
+      
+      
+      w.refracted_color(comps, 5).should eq Color.black
+    end
+    it "at the maximum recursion depth" do
+      w = World.default
+      shape = w.objects.first
+      shape.material.transparency = 1.0
+      shape.material.refractive_index = 1.5
+      r = Ray.new(Point.new(0,0,-5),Vector.new(0,0,1))
+      xs = Intersections.new([{4.0, shape},{6.0, shape}])
+      comps = xs[0].precompute(r, xs)
+
+      w.refracted_color(comps, 0).should eq Color.black
+    end
+    it "under total internal reflection" do
+      w = World.default
+      shape = w.objects.first
+      shape.material.transparency = 1.0
+      shape.material.refractive_index = 1.5
+      r = Ray.new(Point.new(0,0,Math.sqrt(2)/2),Vector.new(0,1,0))
+      xs = Intersections.new([{-Math.sqrt(2)/2, shape},{Math.sqrt(2)/2, shape}])
+      comps = xs[0].precompute(r, xs)
+
+      w.refracted_color(comps, 5).should eq Color.black
+    end
+  end
 end

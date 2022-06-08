@@ -5,7 +5,8 @@ struct Computations
   property eye_v : CTuple
   property normal_v : CTuple
   property inside : Bool?
-  property over_point : CTuple
+  property over_point : CTuple?
+  property under_point : CTuple?
   property reflect_v : CTuple?
   property n1 : Float64?
   property n2 : Float64?
@@ -16,11 +17,5 @@ struct Computations
     @point = point
     @eye_v = eye_v
     @normal_v = normal_v
-    @over_point = calc_over_point
-
-  end
-
-  def calc_over_point
-    point + @normal_v * CTuple::EPSILON
   end
 end
