@@ -59,8 +59,6 @@ class World
 
     sin2_t = n_ratio ** 2 * (1 - cos_i ** 2)
 
-    p! sin2_t
-
     return Color.black if sin2_t > 1.0
 
     Color.white
