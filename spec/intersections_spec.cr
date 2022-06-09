@@ -157,6 +157,34 @@ describe Intersections do
       end
     end
   end
+  describe "#schlick" do
+    it "approximation under total internal reflection" do
+      shape = Sphere.glass
+      r = Ray.new(Point.new(0,0,Math.sqrt(2)/2), Vector.new(0,1,0))
+      xs = Intersections.new([{-Math.sqrt(2)/2, shape}, {Math.sqrt(2)/2, shape}])
+      comps = xs[1].precompute(r, xs)
 
+      reflectance = comps.schlick
+      reflectance.should eq 1.0
+    end
+    pending "approximation with a perpendicular viewing angle" do
+      shape = Sphere.glass
+      r = Ray.new(Point.new(0,0,0), Vector.new(0,1,0))
+      xs = Intersections.new([{-1.0, shape}, {1.0, shape}])
+      comps = xs[1].precompute(r, xs)
+
+      reflectance = comps.schlick
+      reflectance.should eq 0.04
+    end
+    pending "approximation with small angle and n2 > n1" do
+      shape = Sphere.glass
+      r = Ray.new(Point.new(0,0.99,-2), Vector.new(0,0,1))
+      xs = Intersections.new([{1.8589, shape}])
+      comps = xs[0].precompute(r, xs)
+
+      reflectance = comps.schlick
+      reflectance.should eq 0.48873
+    end
+  end
 
 end

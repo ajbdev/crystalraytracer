@@ -24,14 +24,24 @@ class World
 
     shadowed = shadowed?(over_point)
     
-    surface_color = comps.object.material.lighting(light,
+    surface = comps.object.material.lighting(light,
                                                    comps.object,
                                                    over_point,
                                                    comps.eye_v,
                                                    comps.normal_v,
                                                    shadowed)
 
-    (surface_color + reflected_color(comps, remaining)).as_color
+    reflected = reflected_color(comps, remaining)
+    refracted = refracted_color(comps, remaining)
+
+    material = comps.object.material
+    if material.reflective > 0 && material.transparency > 0
+      reflectance = comps.calc_reflectance
+
+      (surface + reflected * reflectance + refracted * (1 - reflectance)).as_color
+    end
+
+    (surface + reflected + refracted).as_color
   end
 
   def color_at(ray : Ray, remaining : Int32 = MAX_RECURSION_DEPTH)
