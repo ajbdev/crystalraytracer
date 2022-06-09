@@ -26,8 +26,8 @@ class Cube < Shape
     tmin_numerator = (-1 - origin) 
     tmax_numerator = (1 - origin)
 
-    tmin = tmin_numerator / tmin_numerator
-    tmax = tmax_numerator / tmax_numerator
+    tmin = tmin_numerator / direction
+    tmax = tmax_numerator / direction
 
     return tmin, tmax
   end
