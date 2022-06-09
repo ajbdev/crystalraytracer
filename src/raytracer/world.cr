@@ -7,6 +7,10 @@ class World
   def initialize
     @objects = [] of Shape
   end
+
+  def <<(s : Shape)
+    @objects << s
+  end
   
   def intersect(ray : Ray)
     xs = Intersections.new(@objects.flat_map(&.intersect(ray).items))
@@ -50,8 +54,11 @@ class World
   end
 
   def refracted_color(comps, remaining)
-    return Color.black if comps.object.material.transparency == 0 || remaining == 0
-    return Color.black unless (n1 = comps.n1) && (n2 = comps.n2)
+    return Color.black if comps.object.material.transparency == 0 ||
+                          remaining == 0
+    return Color.black unless (n1 = comps.n1) && 
+                              (n2 = comps.n2) && 
+                              (under_point = comps.under_point)
 
     n_ratio = n1 / n2
 
@@ -61,7 +68,13 @@ class World
 
     return Color.black if sin2_t > 1.0
 
-    Color.white
+    cos_t = Math.sqrt(1.0 - sin2_t)
+
+    direction = comps.normal_v * (n_ratio * cos_i - cos_t) - comps.eye_v * n_ratio
+
+    refract_ray = Ray.new(under_point, direction)
+
+    color_at(refract_ray, remaining - 1) * comps.object.material.transparency
   end
 
   def shadowed?(point : CTuple)

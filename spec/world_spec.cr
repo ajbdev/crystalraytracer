@@ -142,6 +142,28 @@ describe World do
 
       w.shade_hit(comps).should eq Color.new(0.87677, 0.92436, 0.82918)
     end
+    it "with a transparent material" do
+      w = World.default
+      floor = Plane.new
+      floor.transform = Transform.translate(0,-1,0)
+      floor.material.transparency = 0.5
+      floor.material.refractive_index = 1.5
+      w << floor
+
+      ball = Sphere.new
+      ball.material.color = Color.new(1,0,0)
+      ball.material.ambient = 0.5
+      ball.transform = Transform.translate(0, -3.5, 0.5)
+      w << ball
+
+      r = Ray.new(Point.new(0,0,-3), Vector.new(0, -Math.sqrt(2)/2, Math.sqrt(2)/2))
+
+      xs = Intersections.new([{Math.sqrt(2)/2, floor}])
+
+      comps = xs[0].precompute(r, xs)
+
+      w.shade_hit(comps, 5).should eq Color.new(0.93642, 0.68642, 0.68642)
+    end
   end
   describe "#reflected_color" do
     it "the reflected color for a nonreflective material" do
@@ -221,6 +243,23 @@ describe World do
       comps = xs[1].precompute(r, xs)
 
       w.refracted_color(comps, 5).should eq Color.black
+    end
+    it "refracted color with a reflected ray" do
+      w = World.default
+      a = w.objects.first
+      a.material.ambient = 1.0
+      a.material.pattern = TestPattern.new
+
+      b = w.objects[1]
+      b.material.transparency = 1.0
+      b.material.refractive_index = 1.5
+
+      r = Ray.new(Point.new(0,0,0.1), Vector.new(0,1,0))
+      xs = Intersections.new([{-0.9899, a},{-0.4899,b},{0.4899,b},{0.9899,a}])
+
+      comps = xs[2].precompute(r, xs)
+
+      w.refracted_color(comps, 5).should eq Color.new(0, 0.99888, 0.04725)
     end
   end
 end
