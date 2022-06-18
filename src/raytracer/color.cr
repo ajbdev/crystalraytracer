@@ -46,6 +46,10 @@ class Color < CTuple
     )
   end
 
+  def to_s
+    "rgb(#{red},#{green},#{blue})"
+  end
+
   def self.black
     new(0.0,0.0,0.0)
   end

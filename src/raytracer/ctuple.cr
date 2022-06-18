@@ -129,6 +129,10 @@ class CTuple
     self.class.new_vector(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x)
   end
 
+  def to_s
+    "#{w > 0 ? 'p' : 'v'}(#{x},#{y},#{z})"
+  end
+
   def reflect(normal : CTuple)
     self - normal * 2 * dot(normal)
   end

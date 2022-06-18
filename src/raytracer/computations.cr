@@ -19,6 +19,16 @@ struct Computations
     @normal_v = normal_v
   end
 
+  def serialize
+    values = Hash(String, String).new
+
+    {% for ivar in @type.instance_vars %}
+      values["@{{ ivar.name }}"] = @{{ ivar.id }}.to_s
+    {% end %}
+
+    values
+  end
+
   def calc_reflectance
     schlick
   end
